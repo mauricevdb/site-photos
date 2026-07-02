@@ -26,3 +26,23 @@ title = "Maurice — Photographies"
     name = "CGV"
     pageRef = "/cgv"
     weight = 30
+# Formats de tirage par défaut, selon l'orientation de la photo.
+[[params.formats_paysage]]
+  name = "A4 (29,7 × 21 cm)"
+  surcharge = 0
+[[params.formats_paysage]]
+  name = "A3 (42 × 29,7 cm)"
+  surcharge = 20
+[[params.formats_paysage]]
+  name = "90 × 60 cm"
+  surcharge = 55
+
+[[params.formats_portrait]]
+  name = "A4 (21 × 29,7 cm)"
+  surcharge = 0
+[[params.formats_portrait]]
+  name = "A3 (29,7 × 42 cm)"
+  surcharge = 20
+[[params.formats_portrait]]
+  name = "60 × 90 cm"
+  surcharge = 55
