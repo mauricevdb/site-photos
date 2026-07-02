@@ -77,7 +77,7 @@ Tirage pigmentaire sur papier mat 230 g.
         $t = $t -replace '(?m)^(image:.*)$', "`$1`norientation: $($info.orientation)"
     }
     # Retire le bloc formats: uniquement s'il est identique a celui genere en v1
-    if ($t -match '(?ms)^formats:\r?\n((?:[ \t]+.*\r?\n?)+)') {
+    if ($t -match '(?m)^formats:\r?\n((?:[ \t]+.*\r?\n?)+)') {
         $bloc = $Matches[0]
         if (($bloc -match 'surcharge:\s*0\b') -and ($bloc -match 'surcharge:\s*20\b') -and
             ($bloc -match 'surcharge:\s*55\b') -and ([regex]::Matches($bloc, '- name:').Count -eq 3)) {
