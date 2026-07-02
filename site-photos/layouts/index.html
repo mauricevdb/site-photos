@@ -1,0 +1,19 @@
+{{ define "main" }}
+<section class="hero">
+  <h1>{{ .Title }}</h1>
+  <p>{{ .Site.Params.description }}</p>
+  <a class="btn" href="{{ "/photos/" | relURL }}">Voir la galerie</a>
+</section>
+
+<section class="grid">
+  {{ range first 6 (where .Site.RegularPages "Section" "photos") }}
+  <a class="card" href="{{ .RelPermalink }}">
+    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" loading="lazy">
+    <div class="card-info">
+      <h3>{{ .Title }}</h3>
+      <p>à partir de {{ .Params.base_price }} €</p>
+    </div>
+  </a>
+  {{ end }}
+</section>
+{{ end }}
