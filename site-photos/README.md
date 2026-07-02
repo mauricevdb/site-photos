@@ -99,6 +99,18 @@ Pour **ajouter une photo** :
 
 4. GitHub Desktop : **Commit to main** puis **Push origin**. En ligne 2 minutes après.
 
+### Beaucoup de photos ? Utilisez le script fourni
+
+Le fichier `generer-fiches.ps1` (à copier aussi dans `Documents\site-photos`) crée automatiquement une fiche pour chaque image de `static\images` qui n'en a pas, et corrige les noms de fichiers (accents, espaces, majuscules).
+
+1. Copiez toutes vos photos exportées dans `static\images\`.
+2. Clic droit sur `generer-fiches.ps1` > **Exécuter avec PowerShell**. Si Windows bloque : touche Windows, tapez `powershell`, ouvrez-le, puis collez :
+   `powershell -ExecutionPolicy Bypass -File "$env:USERPROFILE\Documents\site-photos\generer-fiches.ps1"`
+3. Repassez sur les fiches créées dans `content\photos\` pour ajuster titres, prix et descriptions.
+4. GitHub Desktop : **Commit to main** puis **Push origin**.
+
+Relançable sans risque : les fiches déjà existantes ne sont jamais écrasées.
+
 Pour **supprimer** une photo d'exemple : supprimez son fichier `.md` dans `content\photos\` et son image dans `static\images\`, puis commit + push.
 
 ## Étape 8 — Avant le vrai lancement
