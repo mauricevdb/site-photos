@@ -1,0 +1,33 @@
+name: Générer les fiches photos
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  fiches:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Exécuter generer-fiches.ps1
+        shell: powershell
+        run: .\generer-fiches.ps1
+
+      - name: Enregistrer les modifications
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Mise à jour automatique des fiches photos"
+          git push
+
+      - name: Relancer le déploiement du site
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
