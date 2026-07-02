@@ -1,0 +1,28 @@
+# Configuration du site — à personnaliser
+baseURL = "https://VOTRE-DOMAINE.fr/"
+languageCode = "fr-fr"
+title = "Maurice — Photographies"
+
+[params]
+  # Clé API PUBLIQUE Snipcart (Tableau de bord Snipcart > API Keys)
+  snipcartApiKey = "REMPLACEZ_PAR_VOTRE_CLE_PUBLIQUE_SNIPCART"
+  description = "Tirages photographiques d'art, imprimés et expédiés avec soin."
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[menus]
+  [[menus.main]]
+    name = "Galerie"
+    pageRef = "/photos"
+    weight = 10
+  [[menus.main]]
+    name = "À propos"
+    pageRef = "/a-propos"
+    weight = 20
+  [[menus.main]]
+    name = "CGV"
+    pageRef = "/cgv"
+    weight = 30
