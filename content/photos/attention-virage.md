@@ -5,3 +5,6 @@ image: "/images/attention-virage.jpg"
 orientation: paysage
 sku: "attention-virage"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

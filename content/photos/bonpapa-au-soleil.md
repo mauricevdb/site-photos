@@ -5,3 +5,6 @@ image: "/images/bonpapa-au-soleil.jpg"
 orientation: portrait
 sku: "bonpapa-au-soleil"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

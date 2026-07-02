@@ -5,3 +5,6 @@ image: "/images/bibi-khanym-2.jpg"
 orientation: portrait
 sku: "bibi-khanym-2"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

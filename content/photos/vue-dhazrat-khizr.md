@@ -5,3 +5,6 @@ image: "/images/vue-dhazrat-khizr.jpg"
 orientation: portrait
 sku: "vue-dhazrat-khizr"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

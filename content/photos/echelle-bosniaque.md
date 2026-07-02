@@ -5,3 +5,6 @@ image: "/images/echelle-bosniaque.jpg"
 orientation: portrait
 sku: "echelle-bosniaque"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

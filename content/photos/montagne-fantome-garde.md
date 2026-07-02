@@ -5,3 +5,6 @@ image: "/images/montagne-fantome-garde.jpg"
 orientation: paysage
 sku: "montagne-fantome-garde"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

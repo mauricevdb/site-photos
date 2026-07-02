@@ -5,3 +5,6 @@ image: "/images/deux-amis-uzbeks.jpg"
 orientation: portrait
 sku: "deux-amis-uzbeks"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

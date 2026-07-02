@@ -5,3 +5,6 @@ image: "/images/match.jpg"
 orientation: paysage
 sku: "match"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

@@ -5,3 +5,6 @@ image: "/images/alichur-aesthetic.jpg"
 orientation: paysage
 sku: "alichur-aesthetic"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

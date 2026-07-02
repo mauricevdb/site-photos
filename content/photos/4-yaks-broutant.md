@@ -5,3 +5,6 @@ image: "/images/4-yaks-broutant.jpg"
 orientation: paysage
 sku: "4-yaks-broutant"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

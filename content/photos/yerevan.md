@@ -5,3 +5,6 @@ image: "/images/yerevan.jpg"
 orientation: paysage
 sku: "yerevan"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

@@ -5,3 +5,6 @@ image: "/images/triste-venise-3.jpg"
 orientation: portrait
 sku: "triste-venise-3"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

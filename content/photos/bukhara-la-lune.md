@@ -5,3 +5,6 @@ image: "/images/bukhara-la-lune.jpg"
 orientation: portrait
 sku: "bukhara-la-lune"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

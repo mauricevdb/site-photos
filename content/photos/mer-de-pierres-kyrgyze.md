@@ -5,3 +5,6 @@ image: "/images/mer-de-pierres-kyrgyze.jpg"
 orientation: paysage
 sku: "mer-de-pierres-kyrgyze"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

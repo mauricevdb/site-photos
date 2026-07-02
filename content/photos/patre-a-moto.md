@@ -5,3 +5,6 @@ image: "/images/patre-a-moto.jpg"
 orientation: paysage
 sku: "patre-a-moto"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

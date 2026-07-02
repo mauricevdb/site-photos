@@ -5,3 +5,6 @@ image: "/images/mur-de-moutons.jpg"
 orientation: paysage
 sku: "mur-de-moutons"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

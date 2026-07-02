@@ -5,3 +5,6 @@ image: "/images/ages.jpg"
 orientation: paysage
 sku: "ages"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

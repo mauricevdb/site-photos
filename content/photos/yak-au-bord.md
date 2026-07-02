@@ -5,3 +5,6 @@ image: "/images/yak-au-bord.jpg"
 orientation: paysage
 sku: "yak-au-bord"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

@@ -5,3 +5,6 @@ image: "/images/la-supportrice.jpg"
 orientation: paysage
 sku: "la-supportrice"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

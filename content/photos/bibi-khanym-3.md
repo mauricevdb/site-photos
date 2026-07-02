@@ -5,3 +5,6 @@ image: "/images/bibi-khanym-3.jpg"
 orientation: paysage
 sku: "bibi-khanym-3"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

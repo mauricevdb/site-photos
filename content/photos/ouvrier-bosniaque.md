@@ -5,3 +5,6 @@ image: "/images/ouvrier-bosniaque.jpg"
 orientation: portrait
 sku: "ouvrier-bosniaque"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.

@@ -5,3 +5,6 @@ image: "/images/ruines-a-sevan.jpg"
 orientation: paysage
 sku: "ruines-a-sevan"
 base_price: 45
+---
+
+Tirage pigmentaire sur papier mat 230 g.
