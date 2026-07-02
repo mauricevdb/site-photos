@@ -1,0 +1,45 @@
+name: Réparer les fiches photos
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  reparer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Refermer les fiches tronquées
+        shell: pwsh
+        run: |
+          $n = 0
+          Get-ChildItem content/photos -Filter *.md | ForEach-Object {
+            $t = Get-Content $_.FullName -Raw
+            $delims = [regex]::Matches($t, '(?m)^---\s*$').Count
+            if ($delims -lt 2) {
+              if (-not $t.EndsWith("`n")) { $t += "`n" }
+              $t += "---`n`nTirage pigmentaire sur papier mat 230 g.`n"
+              [IO.File]::WriteAllText($_.FullName, $t, (New-Object Text.UTF8Encoding $false))
+              Write-Host "Réparé : $($_.Name)"
+              $n++
+            }
+          }
+          Write-Host ""
+          Write-Host "$n fiche(s) réparée(s)"
+
+      - name: Enregistrer les modifications
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Réparation des fiches tronquées"
+          git push
+
+      - name: Relancer le déploiement du site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
