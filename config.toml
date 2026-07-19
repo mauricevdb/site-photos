@@ -17,12 +17,12 @@ title = "Maurice — Photographies"
 
 [menus]
   [[menus.main]]
-    name = "Galerie"
-    pageRef = "/photos"
-    weight = 10
-  [[menus.main]]
     name = "À propos"
     pageRef = "/a-propos"
+    weight = 10
+  [[menus.main]]
+    name = "Galerie"
+    pageRef = "/photos"
     weight = 20
   [[menus.main]]
     name = "CGV"
@@ -44,7 +44,7 @@ title = "Maurice — Photographies"
   pays = ["Turquie"]
 [[params.regions]]
   id = "caucase"
-  nom = "Autour de la Caspienne"
+  nom = "Caucase"
   pays = ["Arménie", "Kazakhstan"]
 [[params.regions]]
   id = "ouzbekistan"

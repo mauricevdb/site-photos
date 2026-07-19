@@ -51,12 +51,18 @@ main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 
 /* Jalons d'étape sur ligne pointillée */
 .jalons {
+  position: relative;
   display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.4rem 1rem;
-  padding: 1rem 0.5rem 0.6rem; margin: 0.5rem 0 1rem;
-  background:
-    repeating-linear-gradient(to right, var(--accent) 0 6px, transparent 6px 11px)
-    left 1.45rem / 100% 1.6px no-repeat;
+  padding: 1.1rem 0.5rem 1.4rem; margin: 0.5rem 0 1rem;
 }
+.jalons::before {
+  content: ""; position: absolute; left: 0; right: 0; top: 0.75rem; height: 44px;
+  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 44" preserveAspectRatio="none"%3E%3Cpath d="M0 24 Q75 2 150 24 T300 24 T450 24 T600 24 T750 24 T900 24 T1050 24 T1200 24" fill="none" stroke="%232c3e94" stroke-width="2" stroke-dasharray="8 7" opacity="0.75"/%3E%3C/svg%3E') no-repeat center / 100% 100%;
+  pointer-events: none;
+}
+.jalon { position: relative; }
+.jalon:nth-child(odd) { transform: translateY(-7px); }
+.jalon:nth-child(even) { transform: translateY(13px); }
 .jalon { display: flex; flex-direction: column; align-items: center; gap: 0.1rem; }
 .jalon .pt {
   width: 11px; height: 11px; border-radius: 50%;
@@ -111,11 +117,16 @@ main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 .achat .btn { width: 100%; }
 
 .serie-page { text-align: center; }
+.serie-page h1 .manuscrit { font-size: 2.4rem; color: var(--accent); font-weight: 600; }
 .serie-intro { color: var(--muted); }
-.serie-item { max-width: 880px; margin: 0 auto 3rem; scroll-margin-top: 4rem; }
+.serie-grille {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.8rem; align-items: start; padding: 1rem 0;
+}
+.serie-item { scroll-margin-top: 4rem; }
 .serie-item img { width: 100%; height: auto; border: 1.5px solid var(--text); padding: 4px; background: var(--surface); }
-.serie-commande { max-width: 480px; margin: 0.8rem auto 0; text-align: left; }
-.serie-commande h3 { font-weight: normal; margin-bottom: 0.2rem; }
+.serie-item h3 { font-weight: normal; font-size: 1rem; margin: 0.5rem 0 0.1rem; }
+.serie-item .achat label { margin-top: 0.4rem; }
 
 .page { max-width: 720px; margin: 0 auto; padding: 2rem 0; }
 .page h1 { font-weight: normal; margin-bottom: 1.5rem; }
@@ -127,18 +138,18 @@ main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 .grid-mosaique { columns: 4 200px; }
 .grid-mosaique .card { margin-bottom: 1rem; }
 .mosaique-perso {
-  display: grid; grid-template-columns: repeat(var(--mos-cols, 6), 1fr);
-  grid-auto-rows: 90px; grid-auto-flow: dense; gap: var(--mos-gap, 12px);
+  display: flex; flex-wrap: wrap; align-items: flex-start;
+  justify-content: center; gap: var(--mos-gap, 12px);
 }
-.mos { overflow: hidden; border: 1.5px dashed var(--accent); background: var(--surface); padding: 3px; }
-.mos img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
-.mos:hover img { transform: scale(1.04); }
-.mos-petite  { grid-column: span 2; grid-row: span 2; }
-.mos-moyenne { grid-column: span 3; grid-row: span 3; }
-.mos-grande  { grid-column: span 4; grid-row: span 4; }
+.mos { border: 1.5px dashed var(--accent); background: var(--surface); padding: 3px; }
+.mos img { width: 100%; height: auto; display: block; transition: transform 0.3s; }
+.mos:hover img { transform: scale(1.02); }
+.mos-petite  { flex: 0 1 calc(22% - var(--mos-gap, 12px)); min-width: 140px; }
+.mos-moyenne { flex: 0 1 calc(31% - var(--mos-gap, 12px)); min-width: 190px; }
+.mos-grande  { flex: 0 1 calc(46% - var(--mos-gap, 12px)); min-width: 260px; }
 @media (max-width: 700px) {
-  .mosaique-perso { grid-template-columns: repeat(2, 1fr); }
-  .mos-petite, .mos-moyenne, .mos-grande { grid-column: span 1; grid-row: span 2; }
+  .mos-petite, .mos-moyenne { flex-basis: calc(50% - var(--mos-gap, 12px)); }
+  .mos-grande { flex-basis: 100%; }
 }
 
 .carte-wrap { max-width: 1000px; margin: 0 auto 3rem; position: relative; }
@@ -183,3 +194,14 @@ main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
   .site-header { flex-direction: column; gap: 0.8rem; }
   .jalons { justify-content: center; }
 }
+
+
+/* --- Routes pointillées décoratives en marge --- */
+body::before, body::after {
+  content: ""; position: fixed; top: 0; bottom: 0; width: 90px; z-index: -1;
+  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 600" preserveAspectRatio="none"%3E%3Cpath d="M40 0 Q8 75 40 150 T40 300 T40 450 T40 600" fill="none" stroke="%232c3e94" stroke-width="2.2" stroke-dasharray="9 8" opacity="0.35"/%3E%3Ccircle cx="40" cy="150" r="4" fill="%232c3e94" opacity="0.4"/%3E%3Ccircle cx="40" cy="450" r="4" fill="%232c3e94" opacity="0.4"/%3E%3C/svg%3E') repeat-y center / 80px 600px;
+  pointer-events: none;
+}
+body::before { left: 8px; }
+body::after { right: 8px; transform: scaleX(-1); }
+@media (max-width: 1330px) { body::before, body::after { display: none; } }
