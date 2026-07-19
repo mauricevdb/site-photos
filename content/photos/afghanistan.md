@@ -1,9 +1,11 @@
 ---
-title: "Afghanistan"
+title: Au-delà de ces montagnes...
 date: 2026-07-02
-image: "/images/afghanistan.jpg"
+image: /images/afghanistan.jpg
+pays: Tadjikistan
+ordre: null
 orientation: paysage
-sku: "afghanistan"
+sku: afghanistan
 base_price: 45
 ---
 
