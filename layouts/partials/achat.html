@@ -1,0 +1,37 @@
+{{ $page := .page }}
+{{ $orient := lower ($page.Params.orientation | default "paysage") }}
+{{ $formats := $page.Params.formats | default (index site.Params (printf "formats_%s" $orient)) }}
+{{ $chemin := strings.TrimPrefix "/" ($page.Params.image | default "") }}
+{{ $img := resources.Get $chemin }}
+{{ $visuel := $page.Params.image | absURL }}
+{{ if $img }}{{ $img = $img.Filter images.AutoOrient }}{{ $v := $img.Resize "1400x q85" }}{{ $visuel = $v.Permalink }}{{ end }}
+{{ $opts := slice }}
+{{ range $formats }}
+  {{ if gt .surcharge 0 }}
+    {{ $opts = $opts | append (printf "%s[+%.2f]" .name (float .surcharge)) }}
+  {{ else }}
+    {{ $opts = $opts | append .name }}
+  {{ end }}
+{{ end }}
+<div class="achat" data-base-price="{{ $page.Params.base_price }}">
+  <label>Format du tirage</label>
+  <select class="format-select">
+    {{ range $formats }}
+    <option value="{{ .name }}" data-surcharge="{{ .surcharge }}">
+      {{ .name }} — {{ add $page.Params.base_price .surcharge }} €
+    </option>
+    {{ end }}
+  </select>
+  <button class="snipcart-add-item btn"
+    data-item-id="{{ $page.Params.sku }}"
+    data-item-name="{{ $page.Title }}"
+    data-item-price="{{ $page.Params.base_price }}"
+    data-item-url="{{ $page.Permalink }}"
+    data-item-image="{{ $visuel }}"
+    data-item-description="{{ $page.Summary | plainify | truncate 120 }}"
+    data-item-custom1-name="Format"
+    data-item-custom1-options="{{ delimit $opts "|" }}"
+    data-item-custom1-value="{{ (index $formats 0).name }}">
+    Ajouter au panier — <span class="price-display">{{ $page.Params.base_price }}</span> €
+  </button>
+</div>

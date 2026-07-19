@@ -1,16 +1,14 @@
 {{ define "main" }}
 <article class="page serie-page">
   <h1>{{ .Title }}</h1>
-  <p class="serie-intro">Série de {{ len .Pages }} photos — chaque tirage s'achète individuellement.</p>
+  <p class="serie-intro">Série de {{ len .Pages }} photos — chaque tirage se commande ci-dessous.</p>
 </article>
 {{ range sort .Pages "Params.ordre" "asc" }}
-<section class="serie-item">
-  <a href="{{ .RelPermalink }}">
-    {{ partial "vignette.html" (dict "page" . "largeur" 1200) }}
-  </a>
-  <div class="serie-legende">
+<section class="serie-item" id="{{ path.BaseName .File.Path }}">
+  {{ partial "vignette.html" (dict "page" . "largeur" 1200) }}
+  <div class="serie-commande">
     <h3>{{ .Title }}</h3>
-    <p><a href="{{ .RelPermalink }}">Voir le tirage — à partir de {{ .Params.base_price }} €</a></p>
+    {{ partial "achat.html" (dict "page" .) }}
   </div>
 </section>
 {{ end }}

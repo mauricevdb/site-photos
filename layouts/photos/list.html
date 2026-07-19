@@ -2,19 +2,23 @@
 <h1>{{ .Title }}</h1>
 {{ .Content }}
 
-<nav class="regions-nav">
-  {{ range site.Params.regions }}<a href="#{{ .id }}">{{ .nom }}</a>{{ end }}
+<nav class="regions-nav jalons">
+  {{ range site.Params.regions }}
+  <a class="jalon" href="#{{ .id }}"><span class="pt"></span><span class="manuscrit">{{ .nom }}</span></a>
+  {{ end }}
 </nav>
 
 {{ $photos := .Pages.ByDate }}
-
+{{ $premier := true }}
 {{ range site.Params.regions }}
   {{ $r := . }}
   {{ $sub := slice }}
   {{ range $photos }}{{ if in $r.pays (.Params.pays | default "") }}{{ $sub = $sub | append . }}{{ end }}{{ end }}
   {{ if $sub }}
+  {{ if not $premier }}{{ partial "montagnes.html" . }}{{ end }}
+  {{ $premier = false }}
   <section id="{{ $r.id }}" class="region">
-    <h2>{{ $r.nom }}</h2>
+    <h2><span class="manuscrit">{{ $r.nom }}</span> <small>{{ len $sub }} photos</small></h2>
     <div class="grid">
       {{ partial "cartes-grille.html" (dict "pages" $sub) }}
     </div>
@@ -27,8 +31,9 @@
 {{ $sans := slice }}
 {{ range $photos }}{{ if not (in $couverts (.Params.pays | default "")) }}{{ $sans = $sans | append . }}{{ end }}{{ end }}
 {{ if $sans }}
+{{ partial "montagnes.html" . }}
 <section id="autres" class="region">
-  <h2>Autres</h2>
+  <h2><span class="manuscrit">Autres</span></h2>
   <div class="grid">
     {{ partial "cartes-grille.html" (dict "pages" $sans) }}
   </div>

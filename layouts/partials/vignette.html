@@ -2,6 +2,7 @@
 {{- $chemin := strings.TrimPrefix "/" ($page.Params.image | default "") -}}
 {{- $img := resources.Get $chemin -}}
 {{- if $img -}}
+  {{- $img = $img.Filter images.AutoOrient -}}
   {{- $t := $img.Resize (printf "%dx webp q80" $largeur) -}}
   <img src="{{ $t.RelPermalink }}" width="{{ $t.Width }}" height="{{ $t.Height }}" alt="{{ $page.Title }}" loading="lazy">
 {{- else -}}

@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ if not .IsHome }}{{ .Title }} — {{ end }}{{ .Site.Title }}</title>
   <meta name="description" content="{{ .Params.description | default .Site.Params.description }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ "css/style.css" | relURL }}">
   <link rel="preconnect" href="https://app.snipcart.com">
   <link rel="preconnect" href="https://cdn.snipcart.com">
@@ -12,7 +15,7 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="{{ "/" | relURL }}">{{ if fileExists "static/logo.png" }}<img src="{{ "logo.png" | relURL }}" alt="">{{ end }}{{ .Site.Title }}</a>
+    <a class="brand" href="{{ "/" | relURL }}">{{ if fileExists "static/logo.png" }}<img src="{{ "logo.png" | relURL }}" alt="">{{ end }}<span>{{ .Site.Title }}</span></a>
     <nav>
       {{ range .Site.Menus.main }}
       <a href="{{ .URL }}">{{ .Name }}</a>
@@ -22,13 +25,16 @@
       </button>
     </nav>
   </header>
+  {{ if fileExists "static/carte-voyage.jpg" }}
+  <div class="bande-vagues" role="presentation"></div>
+  {{ end }}
 
   <main>
     {{ block "main" . }}{{ end }}
   </main>
 
   <footer class="site-footer">
-    <p>© {{ now.Year }} {{ .Site.Title }} · <a href="{{ "/mentions-legales/" | relURL }}">Mentions légales</a> · <a href="{{ "/cgv/" | relURL }}">CGV</a></p>
+    <p class="manuscrit">© {{ now.Year }} {{ .Site.Title }} · <a href="{{ "/mentions-legales/" | relURL }}">Mentions légales</a> · <a href="{{ "/cgv/" | relURL }}">CGV</a></p>
   </footer>
 
   <div hidden id="snipcart"
@@ -36,5 +42,30 @@
        data-config-modal-style="side"
        data-currency="eur"></div>
   <script async src="https://cdn.snipcart.com/themes/v3.7.1/default/snipcart.js"></script>
+  <script>
+    document.querySelectorAll('.achat').forEach(function (bloc) {
+      var select = bloc.querySelector('.format-select');
+      var bouton = bloc.querySelector('.snipcart-add-item');
+      var prix = bloc.querySelector('.price-display');
+      var base = Number(bloc.dataset.basePrice);
+      select.addEventListener('change', function () {
+        var opt = select.options[select.selectedIndex];
+        bouton.setAttribute('data-item-custom1-value', opt.value);
+        prix.textContent = base + Number(opt.dataset.surcharge);
+      });
+    });
+    document.querySelectorAll('.card-serie').forEach(function (carte) {
+      var couv = carte.querySelector('.serie-cover img');
+      var base = carte.dataset.base;
+      carte.querySelectorAll('.strip-item').forEach(function (item) {
+        item.addEventListener('mouseenter', function () {
+          var img = item.querySelector('img');
+          if (img && couv) { couv.src = img.src; couv.removeAttribute('srcset'); }
+          if (base) { carte.href = base + '#' + item.dataset.slug; }
+        });
+      });
+      carte.addEventListener('mouseleave', function () { if (base) { carte.href = base; } });
+    });
+  </script>
 </body>
 </html>

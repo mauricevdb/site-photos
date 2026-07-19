@@ -1,14 +1,11 @@
 {{ define "main" }}
-{{ $orient := lower (.Params.orientation | default "paysage") }}
-{{ $formats := .Params.formats | default (index .Site.Params (printf "formats_%s" $orient)) }}
 {{ $chemin := strings.TrimPrefix "/" (.Params.image | default "") }}
 {{ $img := resources.Get $chemin }}
-{{ $grande := "" }}{{ $pleine := "" }}
+{{ $grande := .Params.image | relURL }}{{ $pleine := $grande }}
 {{ if $img }}
+  {{ $img = $img.Filter images.AutoOrient }}
   {{ $g := $img.Resize "1400x q85" }}{{ $grande = $g.RelPermalink }}
   {{ $p := $img.Resize "2048x q90" }}{{ $pleine = $p.RelPermalink }}
-{{ else }}
-  {{ $grande = (.Params.image | relURL) }}{{ $pleine = $grande }}
 {{ end }}
 <article class="photo-page">
   <div class="photo-view">
@@ -22,38 +19,7 @@
       {{ end }}
     {{ end }}{{ end }}
     {{ .Content }}
-
-    <label for="format-select">Format du tirage</label>
-    <select id="format-select">
-      {{ range $formats }}
-      <option value="{{ .name }}" data-surcharge="{{ .surcharge }}">
-        {{ .name }} — {{ add $.Params.base_price .surcharge }} €
-      </option>
-      {{ end }}
-    </select>
-
-    {{ $opts := slice }}
-    {{ range $formats }}
-      {{ if gt .surcharge 0 }}
-        {{ $opts = $opts | append (printf "%s[+%.2f]" .name (float .surcharge)) }}
-      {{ else }}
-        {{ $opts = $opts | append .name }}
-      {{ end }}
-    {{ end }}
-
-    <button class="snipcart-add-item btn"
-      id="buy-button"
-      data-item-id="{{ .Params.sku }}"
-      data-item-name="{{ .Title }}"
-      data-item-price="{{ .Params.base_price }}"
-      data-item-url="{{ .Permalink }}"
-      data-item-image="{{ $grande | absURL }}"
-      data-item-description="{{ .Summary | plainify | truncate 120 }}"
-      data-item-custom1-name="Format"
-      data-item-custom1-options="{{ delimit $opts "|" }}"
-      data-item-custom1-value="{{ (index $formats 0).name }}">
-      Ajouter au panier — <span id="price-display">{{ .Params.base_price }}</span> €
-    </button>
+    {{ partial "achat.html" (dict "page" .) }}
   </div>
 </article>
 
@@ -63,15 +29,6 @@
 
 <script>
   (function () {
-    var select = document.getElementById('format-select');
-    var button = document.getElementById('buy-button');
-    var display = document.getElementById('price-display');
-    var basePrice = {{ .Params.base_price }};
-    select.addEventListener('change', function () {
-      var opt = select.options[select.selectedIndex];
-      button.setAttribute('data-item-custom1-value', opt.value);
-      display.textContent = basePrice + Number(opt.dataset.surcharge);
-    });
     var lb = document.getElementById('lightbox');
     document.getElementById('photo-principale').addEventListener('click', function () { lb.hidden = false; });
     lb.addEventListener('click', function () { lb.hidden = true; });

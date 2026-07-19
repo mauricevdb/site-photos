@@ -1,9 +1,15 @@
 {{ define "main" }}
 <section class="hero">
   <h1>{{ .Title }}</h1>
-  <p>{{ .Site.Params.description }}</p>
+  <p class="manuscrit hero-sous-titre">{{ .Site.Params.description }}</p>
   <a class="btn" href="{{ "/photos/" | relURL }}">Voir la galerie</a>
 </section>
+
+<div class="jalons">
+  {{ range site.Params.regions }}
+  <a class="jalon" href="{{ "/photos/" | relURL }}#{{ .id }}"><span class="pt"></span><span class="manuscrit">{{ .nom }}</span></a>
+  {{ end }}
+</div>
 
 <section class="grid">
   {{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
@@ -12,9 +18,10 @@
     {{ partial "vignette.html" (dict "page" . "largeur" 600) }}
     <div class="card-info">
       <h3>{{ .Title }}</h3>
-      <p>à partir de {{ .Params.base_price }} €</p>
+      <p class="manuscrit">à partir de {{ .Params.base_price }} €</p>
     </div>
   </a>
   {{ end }}
 </section>
+{{ partial "montagnes.html" . }}
 {{ end }}
