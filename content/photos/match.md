@@ -1,10 +1,12 @@
 ---
-title: "Match"
+title: "Soir de match"
 date: 2026-07-02
 image: "/images/match.jpg"
 orientation: paysage
 sku: "match"
 base_price: 45
+pays: "Tadjikistan"
+avant: false
 ---
 
 Tirage pigmentaire sur papier mat 230 g.

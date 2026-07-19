@@ -5,6 +5,8 @@ image: "/images/pavane.jpg"
 orientation: portrait
 sku: "pavane"
 base_price: 45
+pays: "Turquie"
+avant: true
 ---
 
 Tirage pigmentaire sur papier mat 230 g.
