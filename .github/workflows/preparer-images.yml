@@ -17,11 +17,11 @@ jobs:
         run: |
           shopt -s nullglob
           for f in static/carte-originale.*; do
-            magick "$f" -auto-orient -resize 2000x -quality 82 static/carte-voyage.jpg
+            convert "$f" -auto-orient -resize 2000x -quality 82 static/carte-voyage.jpg
             echo "Carte convertie depuis $f"
           done
           for f in static/logo-original.*; do
-            magick "$f" -auto-orient -resize 300x static/logo.png
+            convert "$f" -auto-orient -resize 300x static/logo.png
             echo "Logo converti depuis $f"
           done
           ls -la static/ | grep -E 'carte|logo' || true
