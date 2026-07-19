@@ -1,9 +1,11 @@
 ---
-title: "Yerevan"
+title: Yerevan
 date: 2026-07-02
-image: "/images/yerevan.jpg"
+image: /images/yerevan.jpg
+pays: Arménie
+ordre: null
 orientation: paysage
-sku: "yerevan"
+sku: yerevan
 base_price: 45
 ---
 
