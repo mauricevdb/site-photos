@@ -2,7 +2,7 @@ backend:
   name: github
   repo: mauricevdb/site-photos
   branch: main
-  base_url: https://sveltia-cms-auth.maurice-vandenboo.workers.dev   # à remplacer à l'étape d'authentification
+  base_url: https://VOTRE-WORKER.workers.dev   # à remplacer à l'étape d'authentification
 
 site_url: https://radio-paris-samarcande.eu
 media_folder: assets/images
@@ -53,3 +53,19 @@ collections:
         fields:
           - { name: title, label: Titre }
           - { name: body, label: Texte, widget: markdown }
+
+  - name: mosaique
+    label: "Mosaïque (À propos)"
+    files:
+      - name: mosaique
+        label: "Composition de la mosaïque"
+        file: data/mosaique.yml
+        fields:
+          - { name: colonnes, label: "Colonnes de la grille", widget: select, options: ["4", "6", "8"], default: "6" }
+          - { name: espacement, label: "Espacement (px)", widget: number, default: 12 }
+          - name: photos
+            label: "Photos (ordre = ordre d'affichage)"
+            widget: list
+            fields:
+              - { name: photo, label: Photo, widget: relation, collection: photos, value_field: "{{slug}}", search_fields: [title], display_fields: [title] }
+              - { name: taille, label: Taille, widget: select, options: [petite, moyenne, grande], default: moyenne }

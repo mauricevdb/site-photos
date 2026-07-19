@@ -24,6 +24,8 @@ Le back office a besoin d'un service d'authentification gratuit (Cloudflare Work
 
 - **Photos** : modifier titre, pays, prix, série, mise en avant, description ; ajouter une photo (glisser l'image, remplir le formulaire).
 - **Pages du site** : textes À propos, CGV, mentions légales.
+- **Mosaïque (À propos)** : composition de la mosaïque — choix des photos, taille de chacune (petite/moyenne/grande), nombre de colonnes, espacement. L'ordre de la liste est l'ordre d'affichage.
+- **Séries** : il suffit de nommer les photos « Nom de série #1 », « Nom de série #2 »… puis de lancer Actions > Générer les fiches photos : elles sont rattachées automatiquement.
 - Chaque « Enregistrer » publie automatiquement (2-3 min).
 
 Après un ajout de photos en masse, lancez aussi **Actions > Générer les fiches photos** pour compléter orientation et date EXIF.

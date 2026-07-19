@@ -12,7 +12,7 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="{{ "/" | relURL }}">{{ .Site.Title }}</a>
+    <a class="brand" href="{{ "/" | relURL }}">{{ if fileExists "static/logo.png" }}<img src="{{ "logo.png" | relURL }}" alt="">{{ end }}{{ .Site.Title }}</a>
     <nav>
       {{ range .Site.Menus.main }}
       <a href="{{ .URL }}">{{ .Name }}</a>

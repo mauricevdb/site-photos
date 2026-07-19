@@ -90,6 +90,26 @@ Tirage pigmentaire sur papier mat 230 g.
         $maj++
     }
 }
+# Passe series : tout titre "X #N" rejoint automatiquement la serie X
+$series_maj = 0
+Get-ChildItem $mdDir -Filter *.md | ForEach-Object {
+    $t = [IO.File]::ReadAllText($_.FullName)
+    if ($t -match '(?m)^title:\s*"(.+?)\s*#(\d+)"') {
+        $nom = $Matches[1] -replace '"', '\"'
+        $num = $Matches[2]
+        $avant2 = $t
+        if ($t -match '(?m)^series\s*:') { $t = $t -replace '(?m)^series\s*:.*$', "series: [`"$nom`"]" }
+        else { $idx = $t.IndexOf("`n---", 4); if ($idx -ge 0) { $t = $t.Substring(0, $idx) + "`nseries: [`"$nom`"]" + $t.Substring($idx) } }
+        if ($t -match '(?m)^ordre\s*:') { $t = $t -replace '(?m)^ordre\s*:.*$', "ordre: $num" }
+        else { $idx = $t.IndexOf("`n---", 4); if ($idx -ge 0) { $t = $t.Substring(0, $idx) + "`nordre: $num" + $t.Substring($idx) } }
+        if ($t -ne $avant2) {
+            [IO.File]::WriteAllText($_.FullName, $t, (New-Object Text.UTF8Encoding $false))
+            $series_maj++
+        }
+    }
+}
+if ($series_maj) { Write-Host "$series_maj fiche(s) rattachee(s) a une serie d'apres leur titre." }
+
 Write-Host ""
 Write-Host "Termine : $crees creee(s), $maj mise(s) a jour, $renommes renommee(s)."
 Write-Host "Pensez a : Commit to main puis Push origin dans GitHub Desktop."

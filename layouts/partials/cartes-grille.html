@@ -12,6 +12,11 @@
       {{ with site.GetPage (printf "/series/%s" ($s | urlize)) }}{{ $lien = .RelPermalink }}{{ end }}
       <a class="card card-serie" href="{{ $lien | default $couv.RelPermalink }}">
         {{ partial "vignette.html" (dict "page" $couv "largeur" 600) }}
+        <div class="serie-strip">
+          {{ range sort $membres "Params.ordre" "asc" }}
+          {{ partial "vignette.html" (dict "page" . "largeur" 150) }}
+          {{ end }}
+        </div>
         <div class="card-info">
           <h3>{{ $s }}</h3>
           <p>Série · {{ len $membres }} photos</p>

@@ -4,10 +4,22 @@
   {{ .Content }}
 </article>
 
-{{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
-{{ if $avant }}
 <section class="apropos-mosaique">
   <h2>Quelques images</h2>
+  {{ $conf := site.Data.mosaique }}
+  {{ if and $conf $conf.photos }}
+  <div class="mosaique-perso" style="--mos-cols: {{ $conf.colonnes | default 6 }}; --mos-gap: {{ $conf.espacement | default 12 }}px;">
+    {{ range $conf.photos }}
+      {{ $p := site.GetPage (printf "/photos/%s" .photo) }}
+      {{ if $p }}
+      <a class="mos mos-{{ .taille | default "moyenne" }}" href="{{ $p.RelPermalink }}">
+        {{ partial "vignette.html" (dict "page" $p "largeur" 800) }}
+      </a>
+      {{ end }}
+    {{ end }}
+  </div>
+  {{ else }}
+  {{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
   <div class="grid grid-mosaique">
     {{ range $avant.ByDate }}
     <a class="card" href="{{ .RelPermalink }}">
@@ -15,8 +27,8 @@
     </a>
     {{ end }}
   </div>
+  {{ end }}
 </section>
-{{ end }}
 
 <section class="apropos-carte">
   <h2>Le voyage</h2>

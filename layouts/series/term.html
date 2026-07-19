@@ -3,15 +3,15 @@
   <h1>{{ .Title }}</h1>
   <p class="serie-intro">Série de {{ len .Pages }} photos — chaque tirage s'achète individuellement.</p>
 </article>
-<div class="grid">
-  {{ range sort .Pages "Params.ordre" "asc" }}
-  <a class="card" href="{{ .RelPermalink }}">
-    {{ partial "vignette.html" (dict "page" . "largeur" 600) }}
-    <div class="card-info">
-      <h3>{{ .Title }}</h3>
-      <p>à partir de {{ .Params.base_price }} €</p>
-    </div>
+{{ range sort .Pages "Params.ordre" "asc" }}
+<section class="serie-item">
+  <a href="{{ .RelPermalink }}">
+    {{ partial "vignette.html" (dict "page" . "largeur" 1200) }}
   </a>
-  {{ end }}
-</div>
+  <div class="serie-legende">
+    <h3>{{ .Title }}</h3>
+    <p><a href="{{ .RelPermalink }}">Voir le tirage — à partir de {{ .Params.base_price }} €</a></p>
+  </div>
+</section>
+{{ end }}
 {{ end }}

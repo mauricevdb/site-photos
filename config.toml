@@ -44,12 +44,8 @@ title = "Maurice — Photographies"
   pays = ["Turquie"]
 [[params.regions]]
   id = "caucase"
-  nom = "Caucase"
-  pays = ["Arménie"]
-[[params.regions]]
-  id = "kazakhstan"
-  nom = "Kazakhstan"
-  pays = ["Kazakhstan"]
+  nom = "Autour de la Caspienne"
+  pays = ["Arménie", "Kazakhstan"]
 [[params.regions]]
   id = "ouzbekistan"
   nom = "Ouzbékistan"
