@@ -15,6 +15,8 @@ jobs:
 
       - name: Convertir la carte et le logo
         run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq imagemagick
           shopt -s nullglob
           for f in static/carte-originale.*; do
             convert "$f" -auto-orient -resize 2000x -quality 82 static/carte-voyage.jpg
