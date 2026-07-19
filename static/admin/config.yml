@@ -2,7 +2,7 @@ backend:
   name: github
   repo: mauricevdb/site-photos
   branch: main
-  base_url: https://VOTRE-WORKER.workers.dev   # à remplacer à l'étape d'authentification
+  base_url: https://sveltia-cms-auth.maurice-vandenboo.workers.dev   # à remplacer à l'étape d'authentification
 
 site_url: https://radio-paris-samarcande.eu
 media_folder: assets/images
