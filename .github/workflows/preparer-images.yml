@@ -24,6 +24,12 @@ jobs:
             type=$(file -b --mime-type "$f")
             echo "$f : format reel = $type"
             case "$type" in
+              text/*|application/octet-stream|inode/x-empty)
+                echo "ATTENTION : $f n'est pas une image exploitable. Debut du contenu :"
+                head -c 300 "$f" || true
+                echo ""
+                return 0
+                ;;
               image/heic|image/heif)
                 heif-convert "$f" /tmp/entree.png
                 src=/tmp/entree.png
