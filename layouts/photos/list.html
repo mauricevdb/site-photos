@@ -1,15 +1,37 @@
 {{ define "main" }}
 <h1>{{ .Title }}</h1>
 {{ .Content }}
-<section class="grid">
-  {{ range .Pages.ByDate }}
-  <a class="card" href="{{ .RelPermalink }}">
-    <img src="{{ .Params.image | relURL }}" alt="{{ .Title }}" loading="lazy">
-    <div class="card-info">
-      <h3>{{ .Title }}</h3>
-      <p>à partir de {{ .Params.base_price }} €</p>
+
+<nav class="regions-nav">
+  {{ range site.Params.regions }}<a href="#{{ .id }}">{{ .nom }}</a>{{ end }}
+</nav>
+
+{{ $photos := .Pages.ByDate }}
+
+{{ range site.Params.regions }}
+  {{ $r := . }}
+  {{ $sub := slice }}
+  {{ range $photos }}{{ if in $r.pays (.Params.pays | default "") }}{{ $sub = $sub | append . }}{{ end }}{{ end }}
+  {{ if $sub }}
+  <section id="{{ $r.id }}" class="region">
+    <h2>{{ $r.nom }}</h2>
+    <div class="grid">
+      {{ partial "cartes-grille.html" (dict "pages" $sub) }}
     </div>
-  </a>
+  </section>
   {{ end }}
+{{ end }}
+
+{{ $couverts := slice }}
+{{ range site.Params.regions }}{{ range .pays }}{{ $couverts = $couverts | append . }}{{ end }}{{ end }}
+{{ $sans := slice }}
+{{ range $photos }}{{ if not (in $couverts (.Params.pays | default "")) }}{{ $sans = $sans | append . }}{{ end }}{{ end }}
+{{ if $sans }}
+<section id="autres" class="region">
+  <h2>Autres</h2>
+  <div class="grid">
+    {{ partial "cartes-grille.html" (dict "pages" $sans) }}
+  </div>
 </section>
+{{ end }}
 {{ end }}

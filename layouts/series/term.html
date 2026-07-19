@@ -1,13 +1,10 @@
 {{ define "main" }}
-<section class="hero">
+<article class="page serie-page">
   <h1>{{ .Title }}</h1>
-  <p>{{ .Site.Params.description }}</p>
-  <a class="btn" href="{{ "/photos/" | relURL }}">Voir la galerie</a>
-</section>
-
-<section class="grid">
-  {{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
-  {{ range first 6 $avant.ByDate }}
+  <p class="serie-intro">Série de {{ len .Pages }} photos — chaque tirage s'achète individuellement.</p>
+</article>
+<div class="grid">
+  {{ range sort .Pages "Params.ordre" "asc" }}
   <a class="card" href="{{ .RelPermalink }}">
     {{ partial "vignette.html" (dict "page" . "largeur" 600) }}
     <div class="card-info">
@@ -16,5 +13,5 @@
     </div>
   </a>
   {{ end }}
-</section>
+</div>
 {{ end }}

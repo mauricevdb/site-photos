@@ -1,0 +1,30 @@
+{{ $pages := .pages }}
+{{ $series_vues := slice }}
+{{ range $pages }}
+  {{ $s := "" }}{{ with .Params.series }}{{ $s = index . 0 }}{{ end }}
+  {{ if $s }}
+    {{ if not (in $series_vues $s) }}
+      {{ $series_vues = $series_vues | append $s }}
+      {{ $membres := slice }}
+      {{ range $pages }}{{ $s2 := "" }}{{ with .Params.series }}{{ $s2 = index . 0 }}{{ end }}{{ if eq $s2 $s }}{{ $membres = $membres | append . }}{{ end }}{{ end }}
+      {{ $couv := index (sort $membres "Params.ordre" "asc") 0 }}
+      {{ $lien := "" }}
+      {{ with site.GetPage (printf "/series/%s" ($s | urlize)) }}{{ $lien = .RelPermalink }}{{ end }}
+      <a class="card card-serie" href="{{ $lien | default $couv.RelPermalink }}">
+        {{ partial "vignette.html" (dict "page" $couv "largeur" 600) }}
+        <div class="card-info">
+          <h3>{{ $s }}</h3>
+          <p>Série · {{ len $membres }} photos</p>
+        </div>
+      </a>
+    {{ end }}
+  {{ else }}
+  <a class="card" href="{{ .RelPermalink }}">
+    {{ partial "vignette.html" (dict "page" . "largeur" 600) }}
+    <div class="card-info">
+      <h3>{{ .Title }}</h3>
+      <p>à partir de {{ .Params.base_price }} €</p>
+    </div>
+  </a>
+  {{ end }}
+{{ end }}

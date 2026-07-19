@@ -1,0 +1,25 @@
+{{ define "main" }}
+<article class="page apropos-texte">
+  <h1>{{ .Title }}</h1>
+  {{ .Content }}
+</article>
+
+{{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
+{{ if $avant }}
+<section class="apropos-mosaique">
+  <h2>Quelques images</h2>
+  <div class="grid grid-mosaique">
+    {{ range $avant.ByDate }}
+    <a class="card" href="{{ .RelPermalink }}">
+      {{ partial "vignette.html" (dict "page" . "largeur" 450) }}
+    </a>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
+
+<section class="apropos-carte">
+  <h2>Le voyage</h2>
+  {{ partial "carte.html" . }}
+</section>
+{{ end }}

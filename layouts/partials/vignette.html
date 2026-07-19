@@ -1,0 +1,9 @@
+{{- $page := .page -}}{{- $largeur := .largeur -}}
+{{- $chemin := strings.TrimPrefix "/" ($page.Params.image | default "") -}}
+{{- $img := resources.Get $chemin -}}
+{{- if $img -}}
+  {{- $t := $img.Resize (printf "%dx webp q80" $largeur) -}}
+  <img src="{{ $t.RelPermalink }}" width="{{ $t.Width }}" height="{{ $t.Height }}" alt="{{ $page.Title }}" loading="lazy">
+{{- else -}}
+  <img src="{{ $page.Params.image | relURL }}" alt="{{ $page.Title }}" loading="lazy">
+{{- end -}}

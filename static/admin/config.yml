@@ -1,0 +1,55 @@
+backend:
+  name: github
+  repo: mauricevdb/site-photos
+  branch: main
+  base_url: https://VOTRE-WORKER.workers.dev   # à remplacer à l'étape d'authentification
+
+site_url: https://radio-paris-samarcande.eu
+media_folder: assets/images
+public_folder: /images
+
+collections:
+  - name: photos
+    label: Photos
+    label_singular: Photo
+    folder: content/photos
+    extension: md
+    format: yaml-frontmatter
+    create: true
+    identifier_field: title
+    summary: "{{title}} — {{pays}}"
+    sortable_fields: [title, date, pays]
+    fields:
+      - { name: title, label: Titre }
+      - { name: date, label: Date de capture, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { name: image, label: Image, widget: image }
+      - { name: pays, label: Pays, widget: select, options: [Italie, Bosnie, Macédoine du Nord, Turquie, Arménie, Kazakhstan, Ouzbékistan, Tadjikistan, Kyrgyzstan], required: false }
+      - { name: avant, label: "Mettre en avant (mosaïque À propos)", widget: boolean, default: false, required: false }
+      - { name: series, label: "Série (laisser vide si photo seule)", widget: list, required: false }
+      - { name: ordre, label: "Ordre dans la série", widget: number, required: false }
+      - { name: orientation, label: Orientation, widget: select, options: [paysage, portrait], default: paysage }
+      - { name: sku, label: "Référence (ne pas modifier)", required: false }
+      - { name: base_price, label: "Prix de base (€)", widget: number, default: 45 }
+      - { name: body, label: Description, widget: markdown, required: false }
+
+  - name: pages
+    label: Pages du site
+    files:
+      - name: apropos
+        label: "À propos"
+        file: content/a-propos.md
+        fields:
+          - { name: title, label: Titre }
+          - { name: body, label: "Texte de présentation", widget: markdown }
+      - name: cgv
+        label: "Conditions générales de vente"
+        file: content/cgv.md
+        fields:
+          - { name: title, label: Titre }
+          - { name: body, label: Texte, widget: markdown }
+      - name: mentions
+        label: "Mentions légales"
+        file: content/mentions-legales.md
+        fields:
+          - { name: title, label: Titre }
+          - { name: body, label: Texte, widget: markdown }

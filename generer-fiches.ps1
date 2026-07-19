@@ -9,7 +9,7 @@
 Add-Type -AssemblyName System.Drawing
 
 $site   = Split-Path -Parent $MyInvocation.MyCommand.Path
-$imgDir = Join-Path $site "static\images"
+$imgDir = Join-Path $site "assets\images"
 $mdDir  = Join-Path $site "content\photos"
 
 function Normaliser([string]$nom) {

@@ -1,0 +1,29 @@
+<div class="carte-wrap">
+<svg viewBox="0 0 900 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Itinéraire du voyage">
+  <path d="M 60 210 C 150 260, 200 180, 265 195 S 380 250, 445 205 S 520 120, 590 150 S 700 240, 760 200 S 830 130, 855 120"
+        fill="none" stroke="#c8a45d" stroke-width="2" stroke-dasharray="6 5" opacity="0.7"/>
+  {{ $pos := dict
+      "italie"      (dict "x" 60  "y" 210)
+      "balkans"     (dict "x" 265 "y" 195)
+      "turquie"     (dict "x" 445 "y" 205)
+      "caucase"     (dict "x" 590 "y" 150)
+      "kazakhstan"  (dict "x" 700 "y" 240)
+      "ouzbekistan" (dict "x" 760 "y" 200)
+      "tadjikistan" (dict "x" 815 "y" 165)
+      "kyrgyzstan"  (dict "x" 855 "y" 120) }}
+  {{ $photos := where site.RegularPages "Section" "photos" }}
+  {{ range site.Params.regions }}
+    {{ $p := index $pos .id }}
+    {{ $n := 0 }}
+    {{ range .pays }}{{ $n = add $n (len (where $photos "Params.pays" .)) }}{{ end }}
+    {{ if $p }}
+    <a href="{{ "/photos/" | relURL }}#{{ .id }}">
+      <circle cx="{{ $p.x }}" cy="{{ $p.y }}" r="9" fill="#1a1c1f" stroke="#c8a45d" stroke-width="2"/>
+      <circle cx="{{ $p.x }}" cy="{{ $p.y }}" r="4" fill="#c8a45d"/>
+      <text x="{{ $p.x }}" y="{{ sub $p.y 18 }}" text-anchor="middle" class="carte-nom">{{ .nom }}</text>
+      <text x="{{ $p.x }}" y="{{ add $p.y 28 }}" text-anchor="middle" class="carte-nb">{{ $n }} photos</text>
+    </a>
+    {{ end }}
+  {{ end }}
+</svg>
+</div>
