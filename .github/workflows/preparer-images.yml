@@ -13,19 +13,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Convertir la carte et le logo
+- name: Convertir la carte et le logo
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq imagemagick
+          sudo apt-get install -y -qq imagemagick libheif-examples webp
           shopt -s nullglob
-          for f in static/carte-originale.*; do
-            convert "$f" -auto-orient -resize 2000x -quality 82 static/carte-voyage.jpg
-            echo "Carte convertie depuis $f"
-          done
-          for f in static/logo-original.*; do
-            convert "$f" -auto-orient -resize 300x static/logo.png
-            echo "Logo converti depuis $f"
-          done
+          preparer() {
+            local f="$1" cible="$2" taille="$3"
+            local type src
+            type=$(file -b --mime-type "$f")
+            echo "$f : format réel = $type"
+            case "$type" in
+              image/heic|image/heif)
+                heif-convert "$f" /tmp/entree.png
+                src=/tmp/entree.png ;;
+              image/webp)
+                dwebp "$f" -o /tmp/entree.png
+                src=/tmp/entree.png ;;
+              *)
+                cp "$f" /tmp/entree
+                src=/tmp/entree ;;
+            esac
+            convert "$src" -auto-orient -resize "$taille" -quality 82 "$cible"
+            echo "Converti : $f -> $cible"
+          }
+          for f in static/carte-originale.*; do preparer "$f" static/carte-voyage.jpg 2000x; done
+          for f in static/logo-original.*; do preparer "$f" static/logo.png 300x; done
           ls -la static/ | grep -E 'carte|logo' || true
 
       - name: Enregistrer
