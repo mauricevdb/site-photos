@@ -1,0 +1,81 @@
+name: Appliquer les améliorations
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  ameliorations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Migrer les images vers assets
+        run: |
+          if [ -d static/images ]; then
+            mkdir -p assets
+            git mv static/images assets/images
+            echo "Images migrées vers assets/images"
+          else
+            echo "Déjà migré"
+          fi
+
+      - name: Nettoyages (copie fantôme, here.)
+        run: |
+          find content/photos assets/images -depth -name '*[Cc]opie*' -print -exec git rm -f {} \; 2>/dev/null || true
+          if [ -f 'content/photos/here..md' ]; then git mv 'content/photos/here..md' content/photos/here.md; fi
+          for f in assets/images/here..*; do
+            [ -e "$f" ] || continue
+            ext="${f##*.}"
+            git mv "$f" "assets/images/here.$ext"
+          done
+          if [ -f content/photos/here.md ]; then
+            sed -i 's|/images/here\.\.|/images/here.|; s|sku: "here."|sku: "here"|' content/photos/here.md
+          fi
+
+      - name: Appliquer le mapping (titres, pays, séries, mises en avant)
+        shell: pwsh
+        run: |
+          $mapping = Get-Content data/mapping.json -Raw | ConvertFrom-Json
+          function Set-FM([string]$t, [string]$cle, [string]$ligne) {
+            if ($t -match "(?m)^$cle\s*:") {
+              return ($t -replace "(?m)^$cle\s*:.*$", $ligne)
+            }
+            $idx = $t.IndexOf("`n---", 4)
+            if ($idx -lt 0) { return $t }
+            return $t.Substring(0, $idx) + "`n" + $ligne + $t.Substring($idx)
+          }
+          $ok = 0; $absents = @()
+          foreach ($m in $mapping) {
+            $f = "content/photos/$($m.slug).md"
+            if (-not (Test-Path $f)) { $absents += $m.slug; continue }
+            $t = [IO.File]::ReadAllText($f)
+            if ($m.titre) { $titre = $m.titre -replace '"', '\"'; $t = Set-FM $t 'title' "title: `"$titre`"" }
+            if ($m.pays)  { $t = Set-FM $t 'pays' "pays: `"$($m.pays)`"" }
+            $t = Set-FM $t 'avant' "avant: $(if ($m.avant) { 'true' } else { 'false' })"
+            if ($m.serie) {
+              $serie = $m.serie -replace '"', '\"'
+              $t = Set-FM $t 'series' "series: [`"$serie`"]"
+              $t = Set-FM $t 'ordre' "ordre: $($m.ordre)"
+            }
+            [IO.File]::WriteAllText($f, $t, (New-Object Text.UTF8Encoding $false))
+            $ok++
+          }
+          Write-Host "$ok fiche(s) mise(s) à jour."
+          if ($absents) { Write-Host "Introuvables : $($absents -join ', ')" }
+
+      - name: Enregistrer les modifications
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet || git commit -m "Améliorations : mapping, régions, séries, migration images"
+          git push
+
+      - name: Relancer le déploiement du site
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run deploy.yml --ref main
