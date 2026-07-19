@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-- name: Convertir la carte et le logo
+      - name: Convertir la carte et le logo
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq imagemagick libheif-examples webp
@@ -22,17 +22,20 @@ jobs:
             local f="$1" cible="$2" taille="$3"
             local type src
             type=$(file -b --mime-type "$f")
-            echo "$f : format réel = $type"
+            echo "$f : format reel = $type"
             case "$type" in
               image/heic|image/heif)
                 heif-convert "$f" /tmp/entree.png
-                src=/tmp/entree.png ;;
+                src=/tmp/entree.png
+                ;;
               image/webp)
                 dwebp "$f" -o /tmp/entree.png
-                src=/tmp/entree.png ;;
+                src=/tmp/entree.png
+                ;;
               *)
                 cp "$f" /tmp/entree
-                src=/tmp/entree ;;
+                src=/tmp/entree
+                ;;
             esac
             convert "$src" -auto-orient -resize "$taille" -quality 82 "$cible"
             echo "Converti : $f -> $cible"
