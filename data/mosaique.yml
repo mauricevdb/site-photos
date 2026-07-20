@@ -1,80 +1,75 @@
-# Mosaïque de la page À propos — modifiable dans le back office (Mosaïque)
 disposition: galaxie
 espacement: 12
 photos:
   - photo: aine-kyrgyz
-    taille: moyenne
+    taille: petite
   - photo: alichur-aesthetic
-    taille: moyenne
+    taille: petite
   - photo: allee-sombre-shahizinda
-    taille: moyenne
+    taille: petite
   - photo: benjamine-kyrgyze
-    taille: moyenne
+    taille: petite
   - photo: cadet-kyrgyz-1
     taille: moyenne
   - photo: cadet-kyrgyz-2
     taille: moyenne
   - photo: chevaux-sevan-2
-    taille: moyenne
+    taille: petite
   - photo: confins-du-monde
-    taille: moyenne
+    taille: grande
   - photo: cycliste-de-samarcande
-    taille: moyenne
+    taille: grande
   - photo: danseurs-sevan-1
     taille: moyenne
-  - photo: deux-garcons-de-karakul
-    taille: moyenne
   - photo: deux-garcons-de-karakul-closeup
-    taille: moyenne
+    taille: grande
   - photo: deux-maraicheres-de-samarcande
     taille: moyenne
   - photo: enfant-siverekois
     taille: moyenne
   - photo: famille-kyrgyze
-    taille: moyenne
+    taille: petite
   - photo: foule-du-bosphore
-    taille: moyenne
+    taille: petite
   - photo: ghibli-turc
-    taille: moyenne
+    taille: grande
   - photo: here.
-    taille: moyenne
+    taille: grande
   - photo: hindu-kush
     taille: moyenne
   - photo: in-the-eyes
-    taille: moyenne
+    taille: grande
   - photo: la-supportrice
     taille: moyenne
   - photo: manhattan-kaboul
     taille: moyenne
   - photo: maraichere-assise-1
-    taille: moyenne
+    taille: grande
   - photo: mecano-kurde
-    taille: moyenne
+    taille: petite
   - photo: mur-de-moutons
-    taille: moyenne
+    taille: petite
   - photo: Non
     taille: moyenne
   - photo: paon
-    taille: moyenne
+    taille: grande
   - photo: pavane
     taille: moyenne
   - photo: plouf
     taille: moyenne
   - photo: registoboggan
-    taille: moyenne
+    taille: petite
   - photo: ruines-a-sevan
-    taille: moyenne
+    taille: petite
   - photo: siverekois
-    taille: moyenne
+    taille: grande
   - photo: triste-venise-1
     taille: moyenne
   - photo: trois-maraicheres
-    taille: moyenne
+    taille: petite
   - photo: une-barque-sur-ohrid
     taille: moyenne
-  - photo: un-garcon-de-karakul
-    taille: moyenne
   - photo: yak-au-bord
-    taille: moyenne
+    taille: grande
   - photo: ages
-    taille: moyenne
+    taille: grande
