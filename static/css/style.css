@@ -214,3 +214,10 @@ body::after { right: 8px; transform: scaleX(-1); }
 /* --- Galaxie : placement en spirale par script --- */
 .mosaique-galaxie { position: relative; display: block; }
 .mosaique-galaxie .mos { position: absolute; margin: 0; }
+
+/* --- Carte : pays cliquables --- */
+.carte-zones { position: absolute; inset: 0; width: 100%; height: 100%; }
+.carte-zone { fill: transparent; cursor: pointer; transition: fill 0.15s; }
+.carte-zones a:hover .carte-zone, .carte-zones a:focus .carte-zone {
+  fill: rgba(44, 62, 148, 0.16); stroke: #2c3e94; stroke-width: 3;
+}

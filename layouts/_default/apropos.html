@@ -31,49 +31,64 @@
   if (!c || !c.classList.contains('mosaique-galaxie')) return;
   var gap = parseFloat(getComputedStyle(c).getPropertyValue('--mos-gap')) || 12;
   function tailleDe(el) {
-    if (el.classList.contains('mos-grande')) return 0.30;
-    if (el.classList.contains('mos-petite')) return 0.11;
-    return 0.19;
+    if (el.classList.contains('mos-grande')) return 0.28;
+    if (el.classList.contains('mos-petite')) return 0.10;
+    return 0.18;
   }
   function ratioDe(el) {
     var img = el.querySelector('img');
     var w = parseFloat(img.getAttribute('width')), h = parseFloat(img.getAttribute('height'));
     return (w && h) ? w / h : 1.5;
   }
-  function chevauche(a, b) {
-    return !(a.x + a.w + gap <= b.x || b.x + b.w + gap <= a.x ||
-             a.y + a.h + gap <= b.y || b.y + b.h + gap <= a.y);
+  function libre(cand, poses) {
+    for (var i = 0; i < poses.length; i++) {
+      var b = poses[i];
+      if (!(cand.x + cand.w + gap <= b.x || b.x + b.w + gap <= cand.x ||
+            cand.y + cand.h + gap <= b.y || b.y + b.h + gap <= cand.y)) return false;
+    }
+    return true;
   }
   function disposer() {
     var cw = c.clientWidth;
+    if (cw < 200) return;
+    var pas = Math.max(10, Math.round(cw / 70));
     var items = Array.prototype.slice.call(c.children);
     items.sort(function (a, b) { return tailleDe(b) - tailleDe(a); });
     var poses = [];
+    var etendue = cw * 0.85;
     items.forEach(function (el) {
-      var w = cw * tailleDe(el);
-      var h = w / ratioDe(el);
-      var place = null;
-      for (var t = 0; t < 220 && !place; t += 0.35) {
-        var r = 6 * t;
-        var cand = { x: cw / 2 + r * Math.cos(t) - w / 2, y: r * 0.72 * Math.sin(t) - h / 2, w: w, h: h };
-        if (cand.x < 0 || cand.x + w > cw) continue;
-        var libre = true;
-        for (var i = 0; i < poses.length; i++) { if (chevauche(cand, poses[i])) { libre = false; break; } }
-        if (libre) place = cand;
+      var w = Math.round(cw * tailleDe(el));
+      var h = Math.round(w / ratioDe(el));
+      var meilleur = null, meilleureDist = Infinity;
+      for (var y = -etendue / 2; y <= etendue / 2; y += pas) {
+        for (var x = 0; x <= cw - w; x += pas) {
+          var dx = x + w / 2 - cw / 2;
+          var dy = y + h / 2;
+          var d = dx * dx + (dy * dy) / 0.55;
+          if (d >= meilleureDist) continue;
+          var cand = { x: x, y: y, w: w, h: h };
+          if (libre(cand, poses)) { meilleur = cand; meilleureDist = d; }
+        }
       }
-      if (!place) place = { x: Math.max(0, cw / 2 - w / 2), y: (poses.length ? Math.max.apply(null, poses.map(function (p) { return p.y + p.h; })) + gap : 0), w: w, h: h };
-      poses.push(place);
+      if (!meilleur) {
+        var basY = poses.length ? Math.max.apply(null, poses.map(function (p) { return p.y + p.h; })) + gap : 0;
+        meilleur = { x: Math.round(cw / 2 - w / 2), y: basY, w: w, h: h };
+      }
+      poses.push(meilleur);
+      el.__pose = meilleur;
       el.style.width = w + 'px';
-      el.style.left = place.x + 'px';
-      el.style.top = place.y + 'px';
     });
     var minY = Math.min.apply(null, poses.map(function (p) { return p.y; }));
     var maxY = Math.max.apply(null, poses.map(function (p) { return p.y + p.h; }));
-    items.forEach(function (el, i) { el.style.top = (poses[i].y - minY) + 'px'; });
+    items.forEach(function (el) {
+      el.style.left = el.__pose.x + 'px';
+      el.style.top = (el.__pose.y - minY) + 'px';
+    });
     c.style.height = (maxY - minY) + 'px';
   }
   disposer();
-  window.addEventListener('resize', disposer);
+  var att = null;
+  window.addEventListener('resize', function () { clearTimeout(att); att = setTimeout(disposer, 150); });
   window.addEventListener('load', disposer);
 })();
 </script>

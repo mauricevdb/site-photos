@@ -1,23 +1,24 @@
 {{ if fileExists "static/carte-voyage.jpg" }}
-{{ $pos := dict
-    "italie"      (dict "x" 23 "y" 58)
-    "balkans"     (dict "x" 35 "y" 66)
-    "turquie"     (dict "x" 48 "y" 69)
-    "caucase"     (dict "x" 66 "y" 64)
-    "ouzbekistan" (dict "x" 91 "y" 66)
-    "tadjikistan" (dict "x" 96 "y" 78)
-    "kyrgyzstan"  (dict "x" 97 "y" 58) }}
+{{ $zones := dict
+    "italie"      "235,455 315,505 310,660 240,615"
+    "balkans"     "320,495 400,535 390,665 315,645"
+    "turquie"     "415,595 585,585 590,725 420,735"
+    "caucase"     "595,535 725,555 720,765 598,745"
+    "ouzbekistan" "755,535 965,555 955,690 765,672"
+    "tadjikistan" "865,678 992,690 988,815 872,802"
+    "kyrgyzstan"  "878,425 1000,425 1000,558 888,548" }}
 <div class="carte-wrap">
   <img src="{{ "carte-voyage.jpg" | relURL }}" alt="Carte dessinée du voyage, de Paris à Samarcande">
-  {{ range site.Params.regions }}
-    {{ $p := index $pos .id }}
-    {{ if $p }}
-    <a class="carte-point" style="left: {{ $p.x }}%; top: {{ $p.y }}%;" href="{{ "/photos/" | relURL }}#{{ .id }}">
-      <span class="pt"></span>
-      <span class="et">{{ .nom }}</span>
-    </a>
+  <svg class="carte-zones" viewBox="0 0 1000 713" preserveAspectRatio="none" aria-label="Régions cliquables de la carte">
+    {{ range site.Params.regions }}
+      {{ $pts := index $zones .id }}
+      {{ if $pts }}
+      <a href="{{ "/photos/" | relURL }}#{{ .id }}" aria-label="{{ .nom }}">
+        <polygon class="carte-zone" points="{{ $pts }}"><title>{{ .nom }}</title></polygon>
+      </a>
+      {{ end }}
     {{ end }}
-  {{ end }}
+  </svg>
 </div>
 {{ else }}
 <div class="carte-wrap carte-svg">
@@ -32,17 +33,13 @@
       "ouzbekistan" (dict "x" 760 "y" 200)
       "tadjikistan" (dict "x" 815 "y" 165)
       "kyrgyzstan"  (dict "x" 855 "y" 120) }}
-  {{ $photos := where site.RegularPages "Section" "photos" }}
   {{ range site.Params.regions }}
     {{ $p := index $pos .id }}
-    {{ $n := 0 }}
-    {{ range .pays }}{{ $n = add $n (len (where $photos "Params.pays" .)) }}{{ end }}
     {{ if $p }}
     <a href="{{ "/photos/" | relURL }}#{{ .id }}">
       <circle cx="{{ $p.x }}" cy="{{ $p.y }}" r="9" fill="#f6f1e2" stroke="#2c3e94" stroke-width="2"/>
       <circle cx="{{ $p.x }}" cy="{{ $p.y }}" r="4" fill="#2c3e94"/>
       <text x="{{ $p.x }}" y="{{ sub $p.y 18 }}" text-anchor="middle" class="carte-nom">{{ .nom }}</text>
-      <text x="{{ $p.x }}" y="{{ add $p.y 28 }}" text-anchor="middle" class="carte-nb">{{ $n }} photos</text>
     </a>
     {{ end }}
   {{ end }}

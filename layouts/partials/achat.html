@@ -1,8 +1,7 @@
 {{ $page := .page }}
 {{ $orient := lower ($page.Params.orientation | default "paysage") }}
 {{ $formats := $page.Params.formats | default (index site.Params (printf "formats_%s" $orient)) }}
-{{ $chemin := strings.TrimPrefix "/" ($page.Params.image | default "") }}
-{{ $img := resources.Get $chemin }}
+{{ $img := partial "img-res.html" (dict "page" $page) }}
 {{ $visuel := $page.Params.image | absURL }}
 {{ if $img }}{{ $img = $img.Filter images.AutoOrient }}{{ $v := $img.Resize "1400x q85" }}{{ $visuel = $v.Permalink }}{{ end }}
 {{ $opts := slice }}

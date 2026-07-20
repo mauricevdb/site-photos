@@ -10,10 +10,7 @@
       {{ $membres = sort $membres "Params.ordre" "asc" }}
       {{ $rtot := 0.0 }}
       {{ range $membres }}
-        {{ $r := 1.5 }}
-        {{ $ch := strings.TrimPrefix "/" (.Params.image | default "") }}
-        {{ with resources.Get $ch }}{{ $r = div (float .Width) (float .Height) }}{{ end }}
-        {{ $rtot = add $rtot $r }}
+        {{ $rtot = add $rtot (partial "ratio.html" (dict "page" .)) }}
       {{ end }}
       {{ $lien := "" }}
       {{ with site.GetPage (printf "/series/%s" ($s | urlize)) }}{{ $lien = .RelPermalink }}{{ end }}
@@ -21,9 +18,7 @@
          style="flex-grow: {{ math.Round (mul $rtot 100) }}; flex-basis: {{ math.Round (mul $rtot 200) }}px;">
         <div class="serie-rangee">
           {{ range $membres }}
-            {{ $r := 1.5 }}
-            {{ $ch := strings.TrimPrefix "/" (.Params.image | default "") }}
-            {{ with resources.Get $ch }}{{ $r = div (float .Width) (float .Height) }}{{ end }}
+            {{ $r := partial "ratio.html" (dict "page" .) }}
             <div class="serie-cellule" style="flex: {{ math.Round (mul $r 100) }} 1 0%;">
               {{ partial "vignette.html" (dict "page" . "largeur" 500) }}
             </div>
@@ -36,9 +31,7 @@
       </a>
     {{ end }}
   {{ else }}
-  {{ $r := 1.5 }}
-  {{ $chemin := strings.TrimPrefix "/" (.Params.image | default "") }}
-  {{ with resources.Get $chemin }}{{ $r = div (float .Width) (float .Height) }}{{ end }}
+  {{ $r := partial "ratio.html" (dict "page" .) }}
   <a class="card" href="{{ .RelPermalink }}"
      style="flex-grow: {{ math.Round (mul $r 100) }}; flex-basis: {{ math.Round (mul $r 220) }}px;">
     {{ partial "vignette.html" (dict "page" . "largeur" 600) }}

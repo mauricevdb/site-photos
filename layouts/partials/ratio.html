@@ -1,0 +1,4 @@
+{{- $img := partial "img-res.html" (dict "page" .page) -}}
+{{- $r := 1.5 -}}
+{{- with $img -}}{{- $o := .Filter images.AutoOrient -}}{{- $r = div (float $o.Width) (float $o.Height) -}}{{- end -}}
+{{- return $r -}}

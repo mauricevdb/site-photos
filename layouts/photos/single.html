@@ -1,6 +1,5 @@
 {{ define "main" }}
-{{ $chemin := strings.TrimPrefix "/" (.Params.image | default "") }}
-{{ $img := resources.Get $chemin }}
+{{ $img := partial "img-res.html" (dict "page" .) }}
 {{ $grande := .Params.image | relURL }}{{ $pleine := $grande }}
 {{ if $img }}
   {{ $img = $img.Filter images.AutoOrient }}

@@ -1,0 +1,7 @@
+{{- $p := .page -}}
+{{- $chemin := strings.TrimPrefix "/" ($p.Params.image | default "") -}}
+{{- $chemin = replace $chemin "%20" " " -}}
+{{- $img := resources.Get $chemin -}}
+{{- if not $img -}}{{- $img = resources.GetMatch (printf "images/%s.*" (path.BaseName $chemin)) -}}{{- end -}}
+{{- if not $img -}}{{- $img = resources.GetMatch (printf "images/%s.*" (path.BaseName $chemin | lower)) -}}{{- end -}}
+{{- return $img -}}

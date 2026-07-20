@@ -1,6 +1,5 @@
 {{- $page := .page -}}{{- $largeur := .largeur -}}
-{{- $chemin := strings.TrimPrefix "/" ($page.Params.image | default "") -}}
-{{- $img := resources.Get $chemin -}}
+{{- $img := partial "img-res.html" (dict "page" $page) -}}
 {{- if $img -}}
   {{- $img = $img.Filter images.AutoOrient -}}
   {{- $t := $img.Resize (printf "%dx webp q80" $largeur) -}}
