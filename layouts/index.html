@@ -13,8 +13,17 @@
 </div>
 
 <section class="grid">
-  {{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
-  {{ partial "cartes-grille.html" (dict "pages" (first 6 $avant.ByDate)) }}
+  {{ $conf := site.Data.mosaique }}
+  {{ $sel := slice }}
+  {{ if and $conf $conf.photos }}
+    {{ range first 6 $conf.photos }}
+      {{ with site.GetPage (printf "/photos/%s" .photo) }}{{ $sel = $sel | append . }}{{ end }}
+    {{ end }}
+  {{ else }}
+    {{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
+    {{ $sel = first 6 $avant.ByDate }}
+  {{ end }}
+  {{ partial "cartes-grille.html" (dict "pages" $sel) }}
 </section>
 {{ partial "montagnes.html" . }}
 {{ end }}

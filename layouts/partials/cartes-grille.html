@@ -1,26 +1,51 @@
 {{ $pages := .pages }}
+{{ $series_vues := slice }}
 {{ range $pages }}
   {{ $s := "" }}{{ with .Params.series }}{{ $s = index . 0 }}{{ end }}
+  {{ if $s }}
+    {{ if not (in $series_vues $s) }}
+      {{ $series_vues = $series_vues | append $s }}
+      {{ $membres := slice }}
+      {{ range $pages }}{{ $s2 := "" }}{{ with .Params.series }}{{ $s2 = index . 0 }}{{ end }}{{ if eq $s2 $s }}{{ $membres = $membres | append . }}{{ end }}{{ end }}
+      {{ $membres = sort $membres "Params.ordre" "asc" }}
+      {{ $rtot := 0.0 }}
+      {{ range $membres }}
+        {{ $r := 1.5 }}
+        {{ $ch := strings.TrimPrefix "/" (.Params.image | default "") }}
+        {{ with resources.Get $ch }}{{ $r = div (float .Width) (float .Height) }}{{ end }}
+        {{ $rtot = add $rtot $r }}
+      {{ end }}
+      {{ $lien := "" }}
+      {{ with site.GetPage (printf "/series/%s" ($s | urlize)) }}{{ $lien = .RelPermalink }}{{ end }}
+      <a class="card card-serie" href="{{ $lien | default (index $membres 0).RelPermalink }}"
+         style="flex-grow: {{ math.Round (mul $rtot 100) }}; flex-basis: {{ math.Round (mul $rtot 200) }}px;">
+        <div class="serie-rangee">
+          {{ range $membres }}
+            {{ $r := 1.5 }}
+            {{ $ch := strings.TrimPrefix "/" (.Params.image | default "") }}
+            {{ with resources.Get $ch }}{{ $r = div (float .Width) (float .Height) }}{{ end }}
+            <div class="serie-cellule" style="flex: {{ math.Round (mul $r 100) }} 1 0%;">
+              {{ partial "vignette.html" (dict "page" . "largeur" 500) }}
+            </div>
+          {{ end }}
+        </div>
+        <div class="card-info">
+          <h3><span class="serie-marque">◈</span> {{ $s }}</h3>
+          <p class="manuscrit">série de {{ len $membres }} — à partir de {{ (index $membres 0).Params.base_price }} €</p>
+        </div>
+      </a>
+    {{ end }}
+  {{ else }}
   {{ $r := 1.5 }}
   {{ $chemin := strings.TrimPrefix "/" (.Params.image | default "") }}
   {{ with resources.Get $chemin }}{{ $r = div (float .Width) (float .Height) }}{{ end }}
-  {{ $lien := .RelPermalink }}
-  {{ if $s }}
-    {{ with site.GetPage (printf "/series/%s" ($s | urlize)) }}
-      {{ $lien = printf "%s#%s" .RelPermalink (path.BaseName $.File.Path) }}
-    {{ end }}
-  {{ end }}
-  <a class="card{{ if $s }} card-serie{{ end }}" href="{{ $lien }}"
+  <a class="card" href="{{ .RelPermalink }}"
      style="flex-grow: {{ math.Round (mul $r 100) }}; flex-basis: {{ math.Round (mul $r 220) }}px;">
     {{ partial "vignette.html" (dict "page" . "largeur" 600) }}
     <div class="card-info">
-      {{ if $s }}
-      <h3><span class="serie-marque">◈</span> {{ $s }}</h3>
-      <p class="manuscrit">série — à partir de {{ .Params.base_price }} €</p>
-      {{ else }}
       <h3>{{ .Title }}</h3>
       <p class="manuscrit">à partir de {{ .Params.base_price }} €</p>
-      {{ end }}
     </div>
   </a>
+  {{ end }}
 {{ end }}

@@ -89,8 +89,11 @@ main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 .card-info h3 { font-weight: normal; font-size: 1rem; }
 .card-info p { color: var(--muted); font-size: 1.05rem; font-family: 'Caveat', cursive; }
 
-/* Séries : cadre plein (frontière tracée), nom commun */
-.card-serie { border-style: solid; border-width: 2px; }
+/* Séries : une carte unique, photos côte à côte */
+.card-serie { border-style: solid; border-width: 2px; border-radius: 14px; max-width: 100%; }
+.card-serie .serie-rangee { display: flex; gap: 4px; }
+.serie-cellule { min-width: 0; }
+.serie-cellule img { width: 100%; height: auto; display: block; border-radius: 7px; }
 .serie-marque { color: var(--accent); }
 
 .photo-page { display: grid; grid-template-columns: 2fr 1fr; gap: 2.5rem; padding: 2rem 0; }
@@ -206,3 +209,8 @@ body::before, body::after {
 body::before { left: 8px; }
 body::after { right: 8px; transform: scaleX(-1); }
 @media (max-width: 1330px) { body::before, body::after { display: none; } }
+
+
+/* --- Galaxie : placement en spirale par script --- */
+.mosaique-galaxie { position: relative; display: block; }
+.mosaique-galaxie .mos { position: absolute; margin: 0; }

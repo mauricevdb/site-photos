@@ -24,7 +24,6 @@ collections:
       - { name: date, label: Date de capture, widget: datetime, format: "YYYY-MM-DD", time_format: false }
       - { name: image, label: Image, widget: image }
       - { name: pays, label: Pays, widget: select, options: [Italie, Bosnie, Macédoine du Nord, Turquie, Arménie, Kazakhstan, Ouzbékistan, Tadjikistan, Kyrgyzstan], required: false }
-      - { name: avant, label: "Mettre en avant (mosaïque À propos)", widget: boolean, default: false, required: false }
       - { name: series, label: "Série (laisser vide si photo seule)", widget: list, required: false }
       - { name: ordre, label: "Ordre dans la série", widget: number, required: false }
       - { name: orientation, label: Orientation, widget: select, options: [paysage, portrait], default: paysage }
@@ -64,7 +63,7 @@ collections:
           - { name: disposition, label: "Disposition", widget: select, options: [galaxie, chemin, libre], default: galaxie, hint: "galaxie = grandes au centre ; chemin = parcours en S ; libre = au fil de la liste" }
           - { name: espacement, label: "Espacement (px)", widget: number, default: 12 }
           - name: photos
-            label: "Photos (ordre = ordre d'affichage)"
+            label: "Photos (l'ordre de la liste = ordre d'affichage ; retirer une photo ici la retire du site vitrine)"
             widget: list
             fields:
               - { name: photo, label: Photo, widget: relation, collection: photos, value_field: "{{slug}}", search_fields: [title], display_fields: [title] }

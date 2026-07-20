@@ -6,34 +6,12 @@
 
 <section class="apropos-mosaique">
   <h2>Quelques images</h2>
-  {{ partial "tourbillon.html" . }}
   {{ $conf := site.Data.mosaique }}
   {{ if and $conf $conf.photos }}
   {{ $dispo := $conf.disposition | default "galaxie" }}
-  {{ $entrees := $conf.photos }}
-  {{ if eq $dispo "galaxie" }}
-    {{ $p := slice }}{{ $m := slice }}{{ $g := slice }}
-    {{ range $conf.photos }}
-      {{ $t := .taille | default "moyenne" }}
-      {{ if eq $t "petite" }}{{ $p = $p | append . }}
-      {{ else if eq $t "grande" }}{{ $g = $g | append . }}
-      {{ else }}{{ $m = $m | append . }}{{ end }}
-    {{ end }}
-    {{ $dp := div (len $p) 2 }}{{ $dm := div (len $m) 2 }}
-    {{ $entrees := slice }}
-    {{ range first $dp $p }}{{ $entrees = $entrees | append . }}{{ end }}
-    {{ range first $dm $m }}{{ $entrees = $entrees | append . }}{{ end }}
-    {{ range $g }}{{ $entrees = $entrees | append . }}{{ end }}
-    {{ range after $dm $m }}{{ $entrees = $entrees | append . }}{{ end }}
-    {{ range after $dp $p }}{{ $entrees = $entrees | append . }}{{ end }}
-    <div class="mosaique-perso mosaique-galaxie" style="--mos-gap: {{ $conf.espacement | default 12 }}px;">
-      {{ partial "mosaique-items.html" (dict "entrees" $entrees) }}
-    </div>
-  {{ else }}
-    <div class="mosaique-perso mosaique-{{ $dispo }}" style="--mos-gap: {{ $conf.espacement | default 12 }}px;">
-      {{ partial "mosaique-items.html" (dict "entrees" $conf.photos) }}
-    </div>
-  {{ end }}
+  <div class="mosaique-perso mosaique-{{ $dispo }}" id="mosaique" style="--mos-gap: {{ $conf.espacement | default 12 }}px;">
+    {{ partial "mosaique-items.html" (dict "entrees" $conf.photos) }}
+  </div>
   {{ else }}
   {{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
   <div class="grid">
@@ -46,4 +24,57 @@
   <h2>Le voyage</h2>
   {{ partial "carte.html" . }}
 </section>
+
+<script>
+(function () {
+  var c = document.getElementById('mosaique');
+  if (!c || !c.classList.contains('mosaique-galaxie')) return;
+  var gap = parseFloat(getComputedStyle(c).getPropertyValue('--mos-gap')) || 12;
+  function tailleDe(el) {
+    if (el.classList.contains('mos-grande')) return 0.30;
+    if (el.classList.contains('mos-petite')) return 0.11;
+    return 0.19;
+  }
+  function ratioDe(el) {
+    var img = el.querySelector('img');
+    var w = parseFloat(img.getAttribute('width')), h = parseFloat(img.getAttribute('height'));
+    return (w && h) ? w / h : 1.5;
+  }
+  function chevauche(a, b) {
+    return !(a.x + a.w + gap <= b.x || b.x + b.w + gap <= a.x ||
+             a.y + a.h + gap <= b.y || b.y + b.h + gap <= a.y);
+  }
+  function disposer() {
+    var cw = c.clientWidth;
+    var items = Array.prototype.slice.call(c.children);
+    items.sort(function (a, b) { return tailleDe(b) - tailleDe(a); });
+    var poses = [];
+    items.forEach(function (el) {
+      var w = cw * tailleDe(el);
+      var h = w / ratioDe(el);
+      var place = null;
+      for (var t = 0; t < 220 && !place; t += 0.35) {
+        var r = 6 * t;
+        var cand = { x: cw / 2 + r * Math.cos(t) - w / 2, y: r * 0.72 * Math.sin(t) - h / 2, w: w, h: h };
+        if (cand.x < 0 || cand.x + w > cw) continue;
+        var libre = true;
+        for (var i = 0; i < poses.length; i++) { if (chevauche(cand, poses[i])) { libre = false; break; } }
+        if (libre) place = cand;
+      }
+      if (!place) place = { x: Math.max(0, cw / 2 - w / 2), y: (poses.length ? Math.max.apply(null, poses.map(function (p) { return p.y + p.h; })) + gap : 0), w: w, h: h };
+      poses.push(place);
+      el.style.width = w + 'px';
+      el.style.left = place.x + 'px';
+      el.style.top = place.y + 'px';
+    });
+    var minY = Math.min.apply(null, poses.map(function (p) { return p.y; }));
+    var maxY = Math.max.apply(null, poses.map(function (p) { return p.y + p.h; }));
+    items.forEach(function (el, i) { el.style.top = (poses[i].y - minY) + 'px'; });
+    c.style.height = (maxY - minY) + 'px';
+  }
+  disposer();
+  window.addEventListener('resize', disposer);
+  window.addEventListener('load', disposer);
+})();
+</script>
 {{ end }}
