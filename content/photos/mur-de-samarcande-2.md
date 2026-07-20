@@ -1,5 +1,5 @@
 ---
-title: 'Murs bleus #'
+title: 'Murs bleus #1'
 date: 2026-07-02
 image: /images/mur-de-samarcande-2.jpg
 pays: Ouzbékistan
