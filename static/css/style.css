@@ -17,7 +17,7 @@ a { color: inherit; text-decoration: none; }
 }
 .brand { display: flex; align-items: center; gap: 0.7rem; }
 .brand span { font-family: 'Caveat', cursive; font-size: 1.7rem; font-weight: 600; letter-spacing: 0.02em; }
-.brand img { height: 56px; width: auto; mix-blend-mode: multiply; }
+.brand img { height: 56px; width: 56px; object-fit: cover; border-radius: 50%; mix-blend-mode: multiply; }
 .site-header nav { display: flex; gap: 1.5rem; align-items: center; }
 .site-header nav a:hover { color: var(--accent); text-decoration: underline; }
 .cart-link {
@@ -26,15 +26,6 @@ a { color: inherit; text-decoration: none; }
 }
 .cart-link:hover { background: var(--accent); color: var(--bg); }
 
-.bande-vagues {
-  height: 34px;
-  background-image: url("/carte-voyage.jpg");
-  background-size: 300% auto;
-  background-position: 24% 78%;
-  mix-blend-mode: multiply;
-  opacity: 0.9;
-  border-bottom: 1px solid var(--trait);
-}
 
 main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 
@@ -84,26 +75,23 @@ main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 .region h2 small { font-size: 0.85rem; color: var(--muted); margin-left: 0.6rem; }
 .region { scroll-margin-top: 4.5rem; }
 
-.grid { columns: 3 280px; column-gap: 1.5rem; padding: 1.2rem 0; }
+.grid { display: flex; flex-wrap: wrap; gap: 14px; padding: 1.2rem 0; }
+.grid::after { content: ""; flex-grow: 999999; flex-basis: 0; }
 .card {
-  display: inline-block; width: 100%; margin-bottom: 1.5rem;
-  break-inside: avoid; background: var(--surface);
+  display: flex; flex-direction: column; min-width: 180px;
+  background: var(--surface);
   border: 1.5px dashed var(--accent); padding: 5px;
 }
+.card > :first-child { flex: 1; }
 .card img { width: 100%; height: auto; display: block; transition: transform 0.3s; }
 .card:hover img { transform: scale(1.02); }
 .card-info { padding: 0.5rem 0.3rem 0.2rem; }
 .card-info h3 { font-weight: normal; font-size: 1rem; }
 .card-info p { color: var(--muted); font-size: 1.05rem; font-family: 'Caveat', cursive; }
 
-/* Séries : bordure pleine (frontière tracée) */
-.card-serie { border-style: solid; }
-.card-serie .card-info h3::before { content: "◈ "; color: var(--accent); }
-.serie-cover { overflow: hidden; }
-.serie-strip { display: flex; gap: 3px; margin-top: 3px; }
-.strip-item { flex: 1 1 0; min-width: 0; cursor: pointer; }
-.strip-item img { height: 52px; width: 100%; object-fit: cover; display: block; }
-.strip-item:hover { outline: 2px solid var(--accent); outline-offset: -2px; }
+/* Séries : cadre plein (frontière tracée), nom commun */
+.card-serie { border-style: solid; border-width: 2px; }
+.serie-marque { color: var(--accent); }
 
 .photo-page { display: grid; grid-template-columns: 2fr 1fr; gap: 2.5rem; padding: 2rem 0; }
 .photo-view img { width: 100%; border: 1.5px solid var(--text); padding: 4px; background: var(--surface); }
@@ -138,9 +126,22 @@ main { max-width: 1100px; margin: 0 auto; padding: 2rem; }
 .grid-mosaique { columns: 4 200px; }
 .grid-mosaique .card { margin-bottom: 1rem; }
 .mosaique-perso {
-  display: flex; flex-wrap: wrap; align-items: flex-start;
+  display: flex; flex-wrap: wrap; align-items: center;
   justify-content: center; gap: var(--mos-gap, 12px);
 }
+.mosaique-chemin {
+  flex-direction: column; flex-wrap: nowrap; align-items: center;
+  max-width: 780px; margin: 0 auto; gap: calc(var(--mos-gap, 12px) + 1.2rem);
+  background: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 600" preserveAspectRatio="none"%3E%3Cpath d="M100 0 Q30 75 100 150 T100 300 T100 450 T100 600" fill="none" stroke="%232c3e94" stroke-width="2" stroke-dasharray="9 8" opacity="0.4"/%3E%3C/svg%3E') repeat-y center / 260px 600px;
+}
+.mosaique-chemin .mos-petite  { width: 40%; min-width: 220px; }
+.mosaique-chemin .mos-moyenne { width: 54%; min-width: 260px; }
+.mosaique-chemin .mos-grande  { width: 72%; min-width: 300px; }
+.mosaique-chemin .mos:nth-child(4n+1) { align-self: flex-start; }
+.mosaique-chemin .mos:nth-child(4n+2) { align-self: center; }
+.mosaique-chemin .mos:nth-child(4n+3) { align-self: flex-end; }
+.mosaique-chemin .mos:nth-child(4n)   { align-self: center; }
+.deco-tourbillon { display: block; width: 130px; margin: 0.4rem auto 0.8rem; color: var(--accent); }
 .mos { border: 1.5px dashed var(--accent); background: var(--surface); padding: 3px; }
 .mos img { width: 100%; height: auto; display: block; transition: transform 0.3s; }
 .mos:hover img { transform: scale(1.02); }

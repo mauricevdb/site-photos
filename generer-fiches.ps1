@@ -47,7 +47,11 @@ Get-ChildItem $imgDir -File | Where-Object { $_.Extension -match '^\.(jpe?g|png|
     $md = Join-Path $mdDir "$slug.md"
 
     if (-not (Test-Path $md)) {
-        $titre = (Get-Culture).TextInfo.ToTitleCase(($slug -replace '-', ' '))
+        if ($slug -match '^(.*)--(\d+)$') {
+            $titre = (Get-Culture).TextInfo.ToTitleCase(($Matches[1] -replace '-', ' ')) + " #" + $Matches[2]
+        } else {
+            $titre = (Get-Culture).TextInfo.ToTitleCase(($slug -replace '-', ' '))
+        }
         $date  = if ($info.date) { $info.date } else { Get-Date -Format 'yyyy-MM-dd' }
         $contenu = @"
 ---

@@ -1,0 +1,8 @@
+{{ range .entrees }}
+  {{ $p := site.GetPage (printf "/photos/%s" .photo) }}
+  {{ if $p }}
+  <a class="mos mos-{{ .taille | default "moyenne" }}" href="{{ $p.RelPermalink }}">
+    {{ partial "vignette.html" (dict "page" $p "largeur" 800) }}
+  </a>
+  {{ end }}
+{{ end }}

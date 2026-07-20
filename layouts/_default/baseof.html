@@ -25,9 +25,6 @@
       </button>
     </nav>
   </header>
-  {{ if fileExists "static/carte-voyage.jpg" }}
-  <div class="bande-vagues" role="presentation"></div>
-  {{ end }}
 
   <main>
     {{ block "main" . }}{{ end }}
@@ -53,18 +50,6 @@
         bouton.setAttribute('data-item-custom1-value', opt.value);
         prix.textContent = base + Number(opt.dataset.surcharge);
       });
-    });
-    document.querySelectorAll('.card-serie').forEach(function (carte) {
-      var couv = carte.querySelector('.serie-cover img');
-      var base = carte.dataset.base;
-      carte.querySelectorAll('.strip-item').forEach(function (item) {
-        item.addEventListener('mouseenter', function () {
-          var img = item.querySelector('img');
-          if (img && couv) { couv.src = img.src; couv.removeAttribute('srcset'); }
-          if (base) { carte.href = base + '#' + item.dataset.slug; }
-        });
-      });
-      carte.addEventListener('mouseleave', function () { if (base) { carte.href = base; } });
     });
   </script>
 </body>

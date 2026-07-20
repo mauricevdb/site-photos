@@ -1,40 +1,26 @@
 {{ $pages := .pages }}
-{{ $series_vues := slice }}
 {{ range $pages }}
   {{ $s := "" }}{{ with .Params.series }}{{ $s = index . 0 }}{{ end }}
+  {{ $r := 1.5 }}
+  {{ $chemin := strings.TrimPrefix "/" (.Params.image | default "") }}
+  {{ with resources.Get $chemin }}{{ $r = div (float .Width) (float .Height) }}{{ end }}
+  {{ $lien := .RelPermalink }}
   {{ if $s }}
-    {{ if not (in $series_vues $s) }}
-      {{ $series_vues = $series_vues | append $s }}
-      {{ $membres := slice }}
-      {{ range $pages }}{{ $s2 := "" }}{{ with .Params.series }}{{ $s2 = index . 0 }}{{ end }}{{ if eq $s2 $s }}{{ $membres = $membres | append . }}{{ end }}{{ end }}
-      {{ $membres = sort $membres "Params.ordre" "asc" }}
-      {{ $couv := index $membres 0 }}
-      {{ $lien := "" }}
-      {{ with site.GetPage (printf "/series/%s" ($s | urlize)) }}{{ $lien = .RelPermalink }}{{ end }}
-      <a class="card card-serie" href="{{ $lien | default $couv.RelPermalink }}" data-base="{{ $lien }}">
-        <div class="serie-cover">
-          {{ partial "vignette.html" (dict "page" $couv "largeur" 600) }}
-        </div>
-        <div class="serie-strip">
-          {{ range $membres }}
-          <span class="strip-item" data-slug="{{ path.BaseName .File.Path }}">
-            {{ partial "vignette.html" (dict "page" . "largeur" 300) }}
-          </span>
-          {{ end }}
-        </div>
-        <div class="card-info">
-          <h3>{{ $s }}</h3>
-          <p>Série · {{ len $membres }} photos</p>
-        </div>
-      </a>
+    {{ with site.GetPage (printf "/series/%s" ($s | urlize)) }}
+      {{ $lien = printf "%s#%s" .RelPermalink (path.BaseName $.File.Path) }}
     {{ end }}
-  {{ else }}
-  <a class="card" href="{{ .RelPermalink }}">
+  {{ end }}
+  <a class="card{{ if $s }} card-serie{{ end }}" href="{{ $lien }}"
+     style="flex-grow: {{ math.Round (mul $r 100) }}; flex-basis: {{ math.Round (mul $r 220) }}px;">
     {{ partial "vignette.html" (dict "page" . "largeur" 600) }}
     <div class="card-info">
+      {{ if $s }}
+      <h3><span class="serie-marque">◈</span> {{ $s }}</h3>
+      <p class="manuscrit">série — à partir de {{ .Params.base_price }} €</p>
+      {{ else }}
       <h3>{{ .Title }}</h3>
-      <p>à partir de {{ .Params.base_price }} €</p>
+      <p class="manuscrit">à partir de {{ .Params.base_price }} €</p>
+      {{ end }}
     </div>
   </a>
-  {{ end }}
 {{ end }}

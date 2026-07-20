@@ -61,7 +61,7 @@ collections:
         label: "Composition de la mosaïque"
         file: data/mosaique.yml
         fields:
-          - { name: colonnes, label: "Colonnes de la grille", widget: select, options: ["4", "6", "8"], default: "6" }
+          - { name: disposition, label: "Disposition", widget: select, options: [galaxie, chemin, libre], default: galaxie, hint: "galaxie = grandes au centre ; chemin = parcours en S ; libre = au fil de la liste" }
           - { name: espacement, label: "Espacement (px)", widget: number, default: 12 }
           - name: photos
             label: "Photos (ordre = ordre d'affichage)"

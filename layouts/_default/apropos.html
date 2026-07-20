@@ -6,26 +6,38 @@
 
 <section class="apropos-mosaique">
   <h2>Quelques images</h2>
+  {{ partial "tourbillon.html" . }}
   {{ $conf := site.Data.mosaique }}
   {{ if and $conf $conf.photos }}
-  <div class="mosaique-perso" style="--mos-cols: {{ $conf.colonnes | default 6 }}; --mos-gap: {{ $conf.espacement | default 12 }}px;">
+  {{ $dispo := $conf.disposition | default "galaxie" }}
+  {{ $entrees := $conf.photos }}
+  {{ if eq $dispo "galaxie" }}
+    {{ $p := slice }}{{ $m := slice }}{{ $g := slice }}
     {{ range $conf.photos }}
-      {{ $p := site.GetPage (printf "/photos/%s" .photo) }}
-      {{ if $p }}
-      <a class="mos mos-{{ .taille | default "moyenne" }}" href="{{ $p.RelPermalink }}">
-        {{ partial "vignette.html" (dict "page" $p "largeur" 800) }}
-      </a>
-      {{ end }}
+      {{ $t := .taille | default "moyenne" }}
+      {{ if eq $t "petite" }}{{ $p = $p | append . }}
+      {{ else if eq $t "grande" }}{{ $g = $g | append . }}
+      {{ else }}{{ $m = $m | append . }}{{ end }}
     {{ end }}
-  </div>
+    {{ $dp := div (len $p) 2 }}{{ $dm := div (len $m) 2 }}
+    {{ $entrees := slice }}
+    {{ range first $dp $p }}{{ $entrees = $entrees | append . }}{{ end }}
+    {{ range first $dm $m }}{{ $entrees = $entrees | append . }}{{ end }}
+    {{ range $g }}{{ $entrees = $entrees | append . }}{{ end }}
+    {{ range after $dm $m }}{{ $entrees = $entrees | append . }}{{ end }}
+    {{ range after $dp $p }}{{ $entrees = $entrees | append . }}{{ end }}
+    <div class="mosaique-perso mosaique-galaxie" style="--mos-gap: {{ $conf.espacement | default 12 }}px;">
+      {{ partial "mosaique-items.html" (dict "entrees" $entrees) }}
+    </div>
+  {{ else }}
+    <div class="mosaique-perso mosaique-{{ $dispo }}" style="--mos-gap: {{ $conf.espacement | default 12 }}px;">
+      {{ partial "mosaique-items.html" (dict "entrees" $conf.photos) }}
+    </div>
+  {{ end }}
   {{ else }}
   {{ $avant := where (where site.RegularPages "Section" "photos") "Params.avant" true }}
-  <div class="grid grid-mosaique">
-    {{ range $avant.ByDate }}
-    <a class="card" href="{{ .RelPermalink }}">
-      {{ partial "vignette.html" (dict "page" . "largeur" 450) }}
-    </a>
-    {{ end }}
+  <div class="grid">
+    {{ partial "cartes-grille.html" (dict "pages" $avant.ByDate) }}
   </div>
   {{ end }}
 </section>
