@@ -6,7 +6,7 @@ pays: Ouzbékistan
 series:
   - Bibi Khanym
 ordre: 3
-orientation: portrait
+orientation: paysage
 sku: bibi-khanym-3
 base_price: 45
 avant: false
