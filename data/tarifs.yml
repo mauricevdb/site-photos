@@ -4,44 +4,69 @@ tailles:
     longueur: 21
     cadre: "18 × 24 cm"
     prix_cadre: 42
+    poids_cadre: 600
+    poids_emballage: 150
   - nom: Medium
     longueur: 30
     cadre: "24 × 30 cm"
     prix_cadre: 56
+    poids_cadre: 900
+    poids_emballage: 250
   - nom: Large
     longueur: 42
     cadre: "30 × 40 cm"
     prix_cadre: 70
+    poids_cadre: 1400
+    poids_emballage: 400
 papiers:
   - impression: "Jet d'encre"
     finition: "Mat"
     nom: "Ultra Smooth Hahnemühle 305 g"
+    grammage: 305
     prix_ref: 18.21
   - impression: "Jet d'encre"
     finition: "Satiné"
     nom: "Hahnemühle Photo RC satiné 310 g"
+    grammage: 310
     prix_ref: 18.21
   - impression: "Jet d'encre"
     finition: "Brillant"
     nom: "Photo Rag Baryta Hahnemühle 315 g"
+    grammage: 315
     prix_ref: 18.21
   - impression: "Argentique"
     finition: "Mat"
     nom: "RC Couleur Mat Fuji 250 g"
+    grammage: 250
     prix_ref: 6.66
   - impression: "Argentique"
     finition: "Satiné"
     nom: "RC Couleur Satiné Fuji 230 g"
+    grammage: 230
     prix_ref: 6.66
   - impression: "Argentique"
     finition: "Brillant"
     nom: "RC Couleur Brillant Fuji 250 g"
+    grammage: 250
     prix_ref: 6.66
 couts:
   site: 5
-  expedition: 5
   capex: 1.2
   capex_cadre: 0.05
+# Frais d'expédition retenus dans le prix, selon le poids calculé du colis (grammes)
+expedition:
+  - jusqu_a: 250
+    cout: 5
+  - jusqu_a: 500
+    cout: 6.5
+  - jusqu_a: 1000
+    cout: 8
+  - jusqu_a: 2000
+    cout: 11
+  - jusqu_a: 5000
+    cout: 16
+  - jusqu_a: 999999
+    cout: 22
 aide_impression: >-
   Le jet d'encre pigmentaire (impression giclée sur traceur Epson) dépose des encres
   pigmentaires d'une grande longévité sur des papiers d'art : précision du détail,

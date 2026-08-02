@@ -50,6 +50,8 @@ collections:
               - { name: longueur, label: "Grand côté (cm)", widget: number }
               - { name: cadre, label: "Dimensions du cadre (texte affiché)" }
               - { name: prix_cadre, label: "Coût du cadre (€)", widget: number }
+              - { name: poids_cadre, label: "Poids du cadre (g)", widget: number }
+              - { name: poids_emballage, label: "Poids de l'emballage (g)", widget: number }
           - name: papiers
             label: "Papiers (prix au format de référence 30 × 40)"
             widget: list
@@ -57,15 +59,21 @@ collections:
               - { name: impression, label: Impression, widget: select, options: ["Jet d'encre", "Argentique"] }
               - { name: finition, label: Finition, widget: select, options: [Mat, Satiné, Brillant] }
               - { name: nom, label: "Nom du papier" }
+              - { name: grammage, label: "Grammage (g/m²)", widget: number }
               - { name: prix_ref, label: "Prix réf. 30×40 (€)", widget: number, value_type: float }
           - name: couts
             label: "Coûts fixes et marge"
             widget: object
             fields:
               - { name: site, label: "Coût site web (€)", widget: number, value_type: float }
-              - { name: expedition, label: "Coût d'expédition (€)", widget: number, value_type: float }
               - { name: capex, label: "Amortissement CAPEX hors cadre (1.2 = +120 %)", widget: number, value_type: float }
               - { name: capex_cadre, label: "Amortissement CAPEX sur le cadre (0.05 = +5 %)", widget: number, value_type: float }
+          - name: expedition
+            label: "Frais d'expédition inclus dans le prix (par tranche de poids)"
+            widget: list
+            fields:
+              - { name: jusqu_a, label: "Poids maximum (g)", widget: number }
+              - { name: cout, label: "Coût (€)", widget: number, value_type: float }
           - { name: aide_impression, label: "Texte d'aide (ampoule impression)", widget: text }
           - { name: aide_papier, label: "Texte d'aide (ampoule papier)", widget: text }
       - name: archive

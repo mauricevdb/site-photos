@@ -29,7 +29,17 @@
         {{ $coutImpr := mul (div (float $pa.prix_ref) 1200.0) $surf }}
         {{ range $cadre := slice false true }}
           {{ $coutCadre := 0.0 }}{{ if $cadre }}{{ $coutCadre = float $ta.prix_cadre }}{{ end }}
-          {{ $horsCadre := add $coutImpr (add (float $t.couts.site) (float $t.couts.expedition)) }}
+          {{/* Poids du colis : papier (grammage × surface) + emballage + cadre */}}
+          {{ $poidsPapier := mul (float $pa.grammage) (div $surf 10000.0) }}
+          {{ $poids := add $poidsPapier (float ($ta.poids_emballage | default 0)) }}
+          {{ if $cadre }}{{ $poids = add $poids (float ($ta.poids_cadre | default 0)) }}{{ end }}
+          {{ $poids = math.Ceil $poids }}
+          {{/* Frais d'expédition selon la tranche de poids */}}
+          {{ $expedition := 0.0 }}{{ $trouve := false }}
+          {{ range $t.expedition }}
+            {{ if and (not $trouve) (le $poids (float .jusqu_a)) }}{{ $expedition = float .cout }}{{ $trouve = true }}{{ end }}
+          {{ end }}
+          {{ $horsCadre := add $coutImpr (add (float $t.couts.site) $expedition) }}
           {{ $prix := math.Ceil (add (mul $horsCadre (add 1.0 (float $t.couts.capex))) (mul $coutCadre (add 1.0 (float ($t.couts.capex_cadre | default 0))))) }}
           {{ $cle := printf "%s-%s-%s-%s" $ta.nom $pa.impression $pa.finition (cond $cadre "cadre" "nu") | lower }}
           {{ $cle = replaceRE "[éèêë]" "e" $cle | replaceRE "[àâä]" "a" | replaceRE "[ùûü]" "u" | replaceRE "[ôö]" "o" | replaceRE "[îï]" "i" | replaceRE "ç" "c" }}
@@ -38,6 +48,7 @@
             data-item-id="{{ $.Params.sku }}-{{ $cle }}"
             data-item-name="{{ $.Title }} — {{ $ta.nom }} ({{ $dims }}), {{ $pa.impression }} {{ $pa.finition }}, {{ $pa.nom }}{{ if $cadre }}, encadré {{ $ta.cadre }}{{ else }}, sans cadre{{ end }}"
             data-item-price="{{ int $prix }}"
+            data-item-weight="{{ int $poids }}"
             data-item-url="{{ $.Permalink }}"
             data-item-image="{{ $grande | absURL }}">x</button>
         {{ end }}
