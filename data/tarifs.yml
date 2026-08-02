@@ -30,8 +30,6 @@ papiers_argentique:
     supplement: 0
   - nom: RC Couleur Mat Fuji 250g
     supplement: 0
-  - nom: Haute Réflexion Fuji 250g
-    supplement: 0
 aide_papier: 'Description des papiers à compléter : grammage, finition (mat, satiné, baryté), rendu des noirs et des couleurs.'
 cadres:
   - nom: Sans cadre
