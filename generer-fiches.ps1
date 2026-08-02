@@ -60,6 +60,8 @@ date: $date
 image: "/images/$propre"
 orientation: $($info.orientation)
 sku: "$slug"
+galerie: false
+archive: true
 base_price: 45
 ---
 

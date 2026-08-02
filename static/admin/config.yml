@@ -24,6 +24,8 @@ collections:
       - { name: date, label: "Date de capture (classement Archive)", widget: datetime, format: "YYYY-MM-DD", time_format: false }
       - { name: image, label: Image, widget: image }
       - { name: pays, label: "Pays (sert aux suggestions automatiques)", widget: select, options: [Italie, Bosnie, Macédoine du Nord, Turquie, Arménie, Kazakhstan, Ouzbékistan, Tadjikistan, Kyrgyzstan], required: false }
+      - { name: galerie, label: "Afficher dans la Galerie", widget: boolean, default: false, required: false }
+      - { name: archive, label: "Afficher dans l'Archive", widget: boolean, default: true, required: false }
       - name: suggestions
         label: "Suggestions manuelles (3 max — laisser vide pour l'automatique)"
         widget: list
@@ -32,19 +34,6 @@ collections:
         field: { name: photo, label: Photo, widget: relation, collection: photos, value_field: "{{slug}}", search_fields: [title], display_fields: [title] }
       - { name: sku, label: "Référence (ne pas modifier)", required: false }
       - { name: body, label: "Description (facultative)", widget: markdown, required: false }
-
-  - name: galerie
-    label: "Galerie (sélection)"
-    files:
-      - name: galerie
-        label: "Photos de la page Galerie"
-        file: data/galerie.yml
-        fields:
-          - name: photos
-            label: "Sélection (l'ordre de la liste = ordre d'affichage)"
-            widget: list
-            fields:
-              - { name: photo, label: Photo, widget: relation, collection: photos, value_field: "{{slug}}", search_fields: [title], display_fields: [title] }
 
   - name: tarifs
     label: "Tarifs & options"

@@ -2,7 +2,8 @@
 <h1 class="titre-page">Archive</h1>
 {{ $gran := "mois" }}{{ with site.Data.archive }}{{ $gran = .granularite | default "mois" }}{{ end }}
 {{ $moisNoms := slice "janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre" }}
-{{ $photos := .Pages.ByDate }}
+{{ $photos := slice }}
+{{ range .Pages.ByDate }}{{ if ne (.Params.archive | default true) false }}{{ $photos = $photos | append . }}{{ end }}{{ end }}
 {{ $cle := "" }}
 {{ range $photos }}
   {{ $c := .Date.Format "2006" }}

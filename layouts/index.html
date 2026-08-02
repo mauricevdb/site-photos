@@ -1,11 +1,7 @@
 {{ define "main" }}
 <h1 class="titre-page">Galerie</h1>
-{{ $sel := slice }}
-{{ with site.Data.galerie }}
-  {{ range .photos }}
-    {{ with site.GetPage (printf "/photos/%s" .photo) }}{{ $sel = $sel | append . }}{{ end }}
-  {{ end }}
-{{ end }}
+{{ $sel := where (where site.RegularPages "Section" "photos") "Params.galerie" true }}
+{{ $sel = $sel.ByDate }}
 {{ if not $sel }}
   {{ $sel = first 24 (where site.RegularPages "Section" "photos").ByDate }}
 {{ end }}
