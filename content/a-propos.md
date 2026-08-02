@@ -1,8 +1,8 @@
 ---
-title: "À propos"
-layout: "apropos"
-portrait: "/images/portrait.jpg"
-instagram: "https://www.instagram.com/VOTRE-COMPTE/"
+title: À propos
+portrait: /images/carte-originale.png
+instagram: https://www.instagram.com/radio_paris_samarcande/
+layout: apropos
 ---
 
-Présentez-vous ici : votre démarche photographique, le voyage à vélo de Paris à Samarcande, le matériel. Ce texte, la photo et le lien Instagram se modifient dans le back office (Pages du site > À propos).
+Toutes les photos ont été prises avec un boîtier Fujifilm X-T4 acquis en janvier 2026, avec lequel j'ai voyagé à travers l'Europe et l'Asie Centrale.
