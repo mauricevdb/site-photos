@@ -15,10 +15,8 @@
     <h2>{{ if eq $gran "mois" }}{{ index $moisNoms (sub (int (.Date.Format "1")) 1) }} {{ end }}{{ .Date.Format "2006" }}</h2>
     <div class="grille grille-archive">
   {{ end }}
-  {{ $r := partial "ratio.html" (dict "page" .) }}
-  <a class="tuile" href="{{ .RelPermalink }}"
-     style="flex-grow: {{ math.Round (mul $r 100) }}; flex-basis: {{ math.Round (mul $r 170) }}px;">
-    {{ partial "vignette.html" (dict "page" . "largeur" 500) }}
+  <a class="tuile" href="{{ .RelPermalink }}">
+    {{ partial "vignette.html" (dict "page" . "largeur" 700) }}
   </a>
 {{ end }}
 {{ if ne $cle "" }}</div></section>{{ end }}

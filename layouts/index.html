@@ -5,5 +5,62 @@
 {{ if not $sel }}
   {{ $sel = first 24 (where site.RegularPages "Section" "photos").ByDate }}
 {{ end }}
-{{ partial "grille-nue.html" (dict "pages" $sel) }}
+<div id="grille-galerie">
+  {{ partial "grille-nue.html" (dict "pages" $sel) }}
+</div>
+
+<script>
+(function () {
+  var conteneur = document.querySelector('#grille-galerie .grille');
+  if (!conteneur) return;
+  var GAP = 10;
+  var tuiles = Array.prototype.slice.call(conteneur.querySelectorAll('.tuile'));
+  tuiles.forEach(function (t) {
+    var img = t.querySelector('img');
+    var w = parseFloat(img.getAttribute('width')), h = parseFloat(img.getAttribute('height'));
+    t.__r = (w && h) ? w / h : 1.5;
+  });
+  function decouper(cible, W) {
+    var rangs = [], cur = [], somme = 0;
+    tuiles.forEach(function (t) {
+      var besoin = (somme + t.__r) * cible + GAP * cur.length;
+      if (cur.length && besoin > W) { rangs.push(cur); cur = []; somme = 0; }
+      cur.push(t); somme += t.__r;
+    });
+    if (cur.length) rangs.push(cur);
+    var hauteurs = rangs.map(function (rang) {
+      var sr = rang.reduce(function (a, t) { return a + t.__r; }, 0);
+      return (W - GAP * (rang.length - 1)) / sr;
+    });
+    return { rangs: rangs, hauteurs: hauteurs };
+  }
+  function disposer() {
+    var W = conteneur.clientWidth;
+    if (W < 200 || !tuiles.length) return;
+    var meilleur = null, meilleurScore = Infinity;
+    for (var cible = 200; cible <= 360; cible += 10) {
+      var essai = decouper(cible, W);
+      var hs = essai.hauteurs;
+      var score = Math.max.apply(null, hs) - Math.min.apply(null, hs);
+      if (Math.max.apply(null, hs) > 480) score += 1000;
+      if (score < meilleurScore) { meilleurScore = score; meilleur = essai; }
+    }
+    meilleur.rangs.forEach(function (rang, i) {
+      var h = Math.round(meilleur.hauteurs[i]);
+      var reste = W - GAP * (rang.length - 1);
+      rang.forEach(function (t, j) {
+        var w = (j === rang.length - 1) ? reste : Math.round(t.__r * h);
+        reste -= w;
+        t.style.flex = 'none';
+        t.style.width = w + 'px';
+        t.style.height = h + 'px';
+      });
+    });
+    conteneur.classList.add('grille-calculee');
+  }
+  disposer();
+  var att = null;
+  window.addEventListener('resize', function () { clearTimeout(att); att = setTimeout(disposer, 150); });
+})();
+</script>
 {{ end }}
