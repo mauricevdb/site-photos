@@ -40,7 +40,7 @@ main { max-width: 1400px; margin: 0 auto; padding: 2.5rem 3rem 4rem; }
 }
 
 /* Grille justifiée nue */
-.grille { display: flex; flex-wrap: wrap; gap: 10px; }
+.grille { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; justify-content: center; }
 .tuile { position: relative; display: block; overflow: hidden; }
 .tuile img { width: 100%; height: auto; display: block; transition: opacity 0.25s; }
 .tuile:hover img { opacity: 0.88; }
@@ -101,22 +101,24 @@ main { max-width: 1400px; margin: 0 auto; padding: 2.5rem 3rem 4rem; }
   letter-spacing: 0.08em; color: var(--muted); margin-bottom: 1.2rem; text-align: center;
 }
 
-/* À propos */
-.apropos {
-  display: grid; grid-template-columns: minmax(260px, 420px) 1fr;
-  gap: 3rem; max-width: 980px; margin: 0 auto; align-items: start;
-}
-.apropos-photo img { width: 100%; height: auto; }
-.apropos-corps h1 { font-family: Georgia, serif; font-weight: normal; font-size: 1.5rem; margin-bottom: 1rem; }
-.apropos-corps p { margin-bottom: 1rem; }
+/* À propos — option C : texte en exergue, deux paysages côte à côte */
+.apropos-c { max-width: 640px; margin: 1rem auto 0; text-align: center; }
+.apropos-c h1 { font-family: Georgia, serif; font-weight: normal; font-size: 1.5rem; margin-bottom: 1.2rem; }
+.apropos-texte { color: var(--texte); }
+.apropos-texte p { margin-bottom: 1rem; }
 .lien-instagram {
-  display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.8rem;
-  color: var(--muted); font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 0.6rem;
+  color: var(--muted); font-size: 0.82rem; letter-spacing: 0.12em; text-transform: uppercase;
 }
 .lien-instagram:hover { color: var(--accent); }
-.apropos-carte-figure { max-width: 980px; margin: 4rem auto 0; text-align: center; }
-.apropos-carte-figure img { width: 100%; height: auto; mix-blend-mode: multiply; }
-.apropos-carte-figure figcaption { color: var(--muted); font-size: 0.8rem; margin-top: 0.6rem; letter-spacing: 0.06em; }
+.apropos-images {
+  display: flex; gap: 12px; align-items: flex-start;
+  max-width: 1100px; margin: 3rem auto 0;
+}
+.apropos-images figure { flex: 1; min-width: 0; }
+.apropos-images img { width: 100%; height: auto; display: block; }
+.apropos-images figure:last-child img { mix-blend-mode: multiply; }
+@media (max-width: 700px) { .apropos-images { flex-direction: column; } }
 
 /* Lightbox */
 #lightbox {
@@ -143,7 +145,9 @@ main { max-width: 1400px; margin: 0 auto; padding: 2.5rem 3rem 4rem; }
 }
 
 /* Galerie calculée : rectangle parfait */
-.grille-calculee .tuile img { width: 100%; height: 100%; object-fit: cover; }
+#grille-galerie { width: 100%; }
+.grille-calculee { justify-content: flex-start; }
+.grille-calculee .tuile img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 /* Archive : hauteur fixe, alignement libre, netteté */
 .grille-archive { gap: 8px; }

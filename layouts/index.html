@@ -35,7 +35,7 @@
     return { rangs: rangs, hauteurs: hauteurs };
   }
   function disposer() {
-    var W = conteneur.clientWidth;
+    var W = Math.floor(conteneur.getBoundingClientRect().width);
     if (W < 200 || !tuiles.length) return;
     var meilleur = null, meilleurScore = Infinity;
     for (var cible = 200; cible <= 360; cible += 10) {
@@ -49,9 +49,9 @@
       var h = Math.round(meilleur.hauteurs[i]);
       var reste = W - GAP * (rang.length - 1);
       rang.forEach(function (t, j) {
-        var w = (j === rang.length - 1) ? reste : Math.round(t.__r * h);
+        var w = (j === rang.length - 1) ? reste : Math.floor(t.__r * h);
         reste -= w;
-        t.style.flex = 'none';
+        t.style.flex = '0 0 auto';
         t.style.width = w + 'px';
         t.style.height = h + 'px';
       });
@@ -59,6 +59,8 @@
     conteneur.classList.add('grille-calculee');
   }
   disposer();
+  window.addEventListener('load', disposer);
+  if (document.fonts && document.fonts.ready) { document.fonts.ready.then(disposer); }
   var att = null;
   window.addEventListener('resize', function () { clearTimeout(att); att = setTimeout(disposer, 150); });
 })();

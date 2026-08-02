@@ -1,29 +1,30 @@
 {{ define "main" }}
-<article class="apropos">
-  {{ with .Params.portrait }}
-  {{ $ch := strings.TrimPrefix "/" . }}
-  {{ $img := resources.Get $ch }}
-  {{ if $img }}{{ $img = $img.Filter images.AutoOrient }}{{ $v := $img.Resize "900x q85" }}
-  <figure class="apropos-photo"><img src="{{ $v.RelPermalink }}" alt="Portrait"></figure>
-  {{ else }}
-  <figure class="apropos-photo"><img src="{{ . | relURL }}" alt="Portrait"></figure>
+<article class="apropos-c">
+  <h1>{{ .Title }}</h1>
+  <div class="apropos-texte">{{ .Content }}</div>
+  {{ with .Params.instagram }}
+  <a class="lien-instagram" href="{{ . }}" rel="me noopener" target="_blank" aria-label="Instagram">
+    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
+    <span>Instagram</span>
+  </a>
   {{ end }}
-  {{ end }}
-  <div class="apropos-corps">
-    <h1>{{ .Title }}</h1>
-    {{ .Content }}
-    {{ with .Params.instagram }}
-    <a class="lien-instagram" href="{{ . }}" rel="me noopener" target="_blank" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1.1" fill="currentColor" stroke="none"/></svg>
-      <span>Instagram</span>
-    </a>
-    {{ end }}
-  </div>
 </article>
-{{ if fileExists "static/carte-voyage.jpg" }}
-<figure class="apropos-carte-figure">
-  <img src="{{ "carte-voyage.jpg" | relURL }}" alt="Carte dessinée du voyage, de Paris à Samarcande" loading="lazy">
-  <figcaption>L'itinéraire, de Paris à Samarcande — dessin original</figcaption>
-</figure>
-{{ end }}
+
+<div class="apropos-images">
+  {{ range slice .Params.velo .Params.carte }}
+    {{ if . }}
+    {{ $ch := strings.TrimPrefix "/" . }}
+    {{ $img := resources.Get $ch }}
+    <figure>
+      {{ if $img }}
+        {{ $img = $img.Filter images.AutoOrient }}
+        {{ $v := $img.Resize "1100x q85" }}
+        <img src="{{ $v.RelPermalink }}" alt="" loading="lazy">
+      {{ else }}
+        <img src="{{ . | relURL }}" alt="" loading="lazy">
+      {{ end }}
+    </figure>
+    {{ end }}
+  {{ end }}
+</div>
 {{ end }}
