@@ -45,13 +45,6 @@ main { max-width: 1400px; margin: 0 auto; padding: 2.5rem 3rem 4rem; }
 .tuile { position: relative; display: block; overflow: hidden; }
 .tuile img { width: 100%; height: auto; display: block; transition: opacity 0.25s; }
 .tuile:hover img { opacity: 0.88; }
-.tuile-titre {
-  position: absolute; left: 0; right: 0; bottom: 0;
-  padding: 0.5rem 0.8rem; font-size: 0.8rem; letter-spacing: 0.05em;
-  background: rgba(255, 255, 255, 0.88); color: var(--texte);
-  opacity: 0; transform: translateY(4px); transition: opacity 0.25s, transform 0.25s;
-}
-.tuile:hover .tuile-titre { opacity: 1; transform: none; }
 
 /* Archive */
 .periode { margin-bottom: 3rem; }

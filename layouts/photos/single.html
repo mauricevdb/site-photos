@@ -14,7 +14,6 @@
   <figure class="commande-visuel">
     <img id="photo-principale" src="{{ $grande }}" alt="{{ .Title }}" title="Cliquer pour agrandir">
   </figure>
-  <h1>{{ .Title }}</h1>
   {{ with .Content }}<div class="commande-texte">{{ . }}</div>{{ end }}
 
   {{ $optTailles := slice }}

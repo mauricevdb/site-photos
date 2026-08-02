@@ -5,7 +5,6 @@
   <a class="tuile" href="{{ .RelPermalink }}"
      style="flex-grow: {{ math.Round (mul $r 100) }}; flex-basis: {{ math.Round (mul $r 240) }}px;">
     {{ partial "vignette.html" (dict "page" . "largeur" 800) }}
-    <span class="tuile-titre">{{ .Title }}</span>
   </a>
   {{ end }}
 </div>

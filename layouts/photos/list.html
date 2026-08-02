@@ -18,7 +18,6 @@
   <a class="tuile" href="{{ .RelPermalink }}"
      style="flex-grow: {{ math.Round (mul $r 100) }}; flex-basis: {{ math.Round (mul $r 170) }}px;">
     {{ partial "vignette.html" (dict "page" . "largeur" 500) }}
-    <span class="tuile-titre">{{ .Title }}</span>
   </a>
 {{ end }}
 {{ if ne $cle "" }}</div></section>{{ end }}
