@@ -39,42 +39,34 @@ collections:
     label: "Tarifs & options"
     files:
       - name: tarifs
-        label: "Grille tarifaire et options de commande"
+        label: "Modèle de pricing"
         file: data/tarifs.yml
         fields:
           - name: tailles
-            label: "Tailles (longueur du grand côté en cm, prix en €)"
+            label: "Tailles (grand côté en cm, cadre et son prix)"
             widget: list
             fields:
               - { name: nom, label: Nom }
               - { name: longueur, label: "Grand côté (cm)", widget: number }
-              - { name: prix, label: "Prix (€)", widget: number }
-          - name: impressions
-            label: "Types d'impression"
+              - { name: cadre, label: "Dimensions du cadre (texte affiché)" }
+              - { name: prix_cadre, label: "Coût du cadre (€)", widget: number }
+          - name: papiers
+            label: "Papiers (prix au format de référence 30 × 40)"
             widget: list
             fields:
-              - { name: nom, label: Nom }
-              - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
+              - { name: impression, label: Impression, widget: select, options: ["Jet d'encre", "Argentique"] }
+              - { name: finition, label: Finition, widget: select, options: [Mat, Satiné, Brillant] }
+              - { name: nom, label: "Nom du papier" }
+              - { name: prix_ref, label: "Prix réf. 30×40 (€)", widget: number, value_type: float }
+          - name: couts
+            label: "Coûts fixes et marge"
+            widget: object
+            fields:
+              - { name: site, label: "Coût site web (€)", widget: number, value_type: float }
+              - { name: expedition, label: "Coût d'expédition (€)", widget: number, value_type: float }
+              - { name: capex, label: "Coefficient CAPEX (1 = prix doublé)", widget: number, value_type: float }
           - { name: aide_impression, label: "Texte d'aide (ampoule impression)", widget: text }
-          - name: papiers_jet
-            label: "Papiers — jet d'encre (affichés si le 1er type d'impression est choisi)"
-            widget: list
-            fields:
-              - { name: nom, label: Nom }
-              - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
-          - name: papiers_argentique
-            label: "Papiers — argentique (affichés si le 2e type d'impression est choisi)"
-            widget: list
-            fields:
-              - { name: nom, label: Nom }
-              - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
           - { name: aide_papier, label: "Texte d'aide (ampoule papier)", widget: text }
-          - name: cadres
-            label: Cadres
-            widget: list
-            fields:
-              - { name: nom, label: Nom }
-              - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
       - name: archive
         label: "Réglage de l'Archive"
         file: data/archive.yml
@@ -89,7 +81,8 @@ collections:
         file: content/a-propos.md
         fields:
           - { name: title, label: Titre }
-          - { name: portrait, label: "Photo (insert)", widget: image, required: false }
+          - { name: velo, label: "Photo au vélo (paysage)", widget: image, required: false }
+          - { name: carte, label: "Carte (paysage)", widget: image, required: false, hint: "Laisser /carte-voyage.jpg pour la carte dessinée" }
           - { name: instagram, label: "Lien Instagram", required: false }
           - { name: body, label: Texte, widget: markdown }
       - name: cgv

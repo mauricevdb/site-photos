@@ -1,54 +1,57 @@
+# Modèle de pricing — tous les inputs de coût sont modifiables ici (back office : Tarifs & options)
 tailles:
   - nom: Small
-    longueur: 24
-    prix: 60
+    longueur: 21
+    cadre: "18 × 24 cm"
+    prix_cadre: 42
   - nom: Medium
     longueur: 30
-    prix: 95
+    cadre: "24 × 30 cm"
+    prix_cadre: 56
   - nom: Large
-    longueur: 40
-    prix: 150
-impressions:
-  - nom: Jet d'encre pigmentaire
-    supplement: 0
-  - nom: Tirage argentique
-    supplement: 10
-aide_impression: |-
-  Le jet d'encre pigmentaire (impression giclée sur traceur Epson) dépose des encres pigmentaires d'une grande longévité sur des papiers d'art : précision du détail, large choix de textures et de tons, du mat profond au baryté. 
-  Le tirage argentique est le procédé photographique traditionnel : l'image est exposée sur un papier photosensible puis révélée par développement chimique — dégradés parfaitement continus, rendu photographique classique d'une grande stabilité.
-papiers_jet:
-  - nom: Aquarelle Arches 310g (sur Epson)
-    supplement: 0
-  - nom: Photo Rag Baryta Hahnemühle 315g
-    supplement: 0
-  - nom: Ultra Smooth Hahnemühle 305g
-    supplement: 0
-  - nom: Hahnemühle Photo RC satiné 310g
-    supplement: 0
-papiers_argentique:
-  - nom: RC Couleur Satiné Fuji 230g
-    supplement: 0
-  - nom: RC Couleur Brillant Fuji 250g
-    supplement: 0
-  - nom: RC Couleur Mat Fuji 250g
-    supplement: 0
-aide_papier: |-
-  Jet d'encre — 
-  - Aquarelle Arches 310 g : véritable papier aquarelle 100 % coton, grain naturel marqué et ton chaud, pour un rendu pictural. 
-  - Photo Rag Baryta 315 g : coton à la surface finement texturée et couche barytée brillante, couleurs profondes et détails éclatants, dans l'esprit des barytés traditionnels. 
-  - Photo Rag Ultra Smooth 305 g : surface coton très lisse et douce, mat d'une extrême précision, idéal pour les images détaillées. 
-  - Photo RC Satiné 310 g : papier photo satiné classique, rendu neutre et polyvalent. 
-
-  Argentique (Fuji Crystal Archive) — 
-  - Satiné : l'équilibre idéal, couleurs riches sans reflets gênants. 
-  - Brillant : noirs denses et contraste maximal, surface sensible aux reflets. 
-  - Mat : aucun reflet, rendu doux et feutré.
-cadres:
-  - nom: Sans cadre
-    supplement: 0
-  - nom: Cadre 1
-    supplement: 40
-  - nom: Cadre 2
-    supplement: 60
-  - nom: Cadre 3
-    supplement: 80
+    longueur: 42
+    cadre: "30 × 40 cm"
+    prix_cadre: 70
+papiers:
+  - impression: "Jet d'encre"
+    finition: "Mat"
+    nom: "Ultra Smooth Hahnemühle 305 g"
+    prix_ref: 18.21
+  - impression: "Jet d'encre"
+    finition: "Satiné"
+    nom: "Hahnemühle Photo RC satiné 310 g"
+    prix_ref: 18.21
+  - impression: "Jet d'encre"
+    finition: "Brillant"
+    nom: "Photo Rag Baryta Hahnemühle 315 g"
+    prix_ref: 18.21
+  - impression: "Argentique"
+    finition: "Mat"
+    nom: "RC Couleur Mat Fuji 250 g"
+    prix_ref: 6.66
+  - impression: "Argentique"
+    finition: "Satiné"
+    nom: "RC Couleur Satiné Fuji 230 g"
+    prix_ref: 6.66
+  - impression: "Argentique"
+    finition: "Brillant"
+    nom: "RC Couleur Brillant Fuji 250 g"
+    prix_ref: 6.66
+couts:
+  site: 5
+  expedition: 5
+  capex: 1
+aide_impression: >-
+  Le jet d'encre pigmentaire (impression giclée sur traceur Epson) dépose des encres
+  pigmentaires d'une grande longévité sur des papiers d'art : précision du détail,
+  large choix de textures et de tons. Le tirage argentique est le procédé photographique
+  traditionnel : l'image est exposée sur un papier photosensible puis révélée par
+  développement chimique — dégradés parfaitement continus, rendu classique d'une
+  grande stabilité.
+aide_papier: >-
+  Mat : aucun reflet, rendu doux et feutré — en jet d'encre, l'Ultra Smooth Hahnemühle
+  305 g offre une surface coton très lisse d'une extrême précision ; en argentique, le
+  RC Couleur Mat Fuji 250 g. Satiné : l'équilibre idéal, couleurs riches sans reflets
+  gênants — Hahnemühle Photo RC satiné 310 g en jet d'encre, RC Couleur Satiné Fuji en
+  argentique. Brillant : noirs denses et contraste maximal — Photo Rag Baryta Hahnemühle
+  315 g (couche barytée) en jet d'encre, RC Couleur Brillant Fuji en argentique.
