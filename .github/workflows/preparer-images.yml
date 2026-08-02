@@ -48,7 +48,7 @@ jobs:
           }
           for f in static/carte-originale.*; do preparer "$f" static/carte-voyage.jpg 2000x; done
           for f in static/logo-original.*; do preparer "$f" static/logo.png 300x; done
-        if [ -f static/logo.png ]; then
+          if [ -f static/logo.png ]; then
             convert static/logo.png -resize 64x64 static/favicon.png
             convert static/logo.png -resize 180x180 static/apple-touch-icon.png
             echo "Favicons generes"
