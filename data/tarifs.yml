@@ -13,7 +13,9 @@ impressions:
     supplement: 0
   - nom: Tirage argentique
     supplement: 10
-aide_impression: Le jet d'encre pigmentaire offre une restitution très fidèle des couleurs et une excellente longévité. Le tirage argentique est un procédé photochimique traditionnel, au rendu profond et continu. À compléter selon vos procédés.
+aide_impression: |-
+  Le jet d'encre pigmentaire (impression giclée sur traceur Epson) dépose des encres pigmentaires d'une grande longévité sur des papiers d'art : précision du détail, large choix de textures et de tons, du mat profond au baryté. 
+  Le tirage argentique est le procédé photographique traditionnel : l'image est exposée sur un papier photosensible puis révélée par développement chimique — dégradés parfaitement continus, rendu photographique classique d'une grande stabilité.
 papiers_jet:
   - nom: Aquarelle Arches 310g (sur Epson)
     supplement: 0
@@ -30,7 +32,17 @@ papiers_argentique:
     supplement: 0
   - nom: RC Couleur Mat Fuji 250g
     supplement: 0
-aide_papier: 'Description des papiers à compléter : grammage, finition (mat, satiné, baryté), rendu des noirs et des couleurs.'
+aide_papier: |-
+  Jet d'encre — 
+  - Aquarelle Arches 310 g : véritable papier aquarelle 100 % coton, grain naturel marqué et ton chaud, pour un rendu pictural. 
+  - Photo Rag Baryta 315 g : coton à la surface finement texturée et couche barytée brillante, couleurs profondes et détails éclatants, dans l'esprit des barytés traditionnels. 
+  - Photo Rag Ultra Smooth 305 g : surface coton très lisse et douce, mat d'une extrême précision, idéal pour les images détaillées. 
+  - Photo RC Satiné 310 g : papier photo satiné classique, rendu neutre et polyvalent. 
+
+  Argentique (Fuji Crystal Archive) — 
+  - Satiné : l'équilibre idéal, couleurs riches sans reflets gênants. 
+  - Brillant : noirs denses et contraste maximal, surface sensible aux reflets. 
+  - Mat : aucun reflet, rendu doux et feutré.
 cadres:
   - nom: Sans cadre
     supplement: 0
