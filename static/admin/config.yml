@@ -64,7 +64,8 @@ collections:
             fields:
               - { name: site, label: "Coût site web (€)", widget: number, value_type: float }
               - { name: expedition, label: "Coût d'expédition (€)", widget: number, value_type: float }
-              - { name: capex, label: "Coefficient CAPEX (1 = prix doublé)", widget: number, value_type: float }
+              - { name: capex, label: "Amortissement CAPEX hors cadre (1.2 = +120 %)", widget: number, value_type: float }
+              - { name: capex_cadre, label: "Amortissement CAPEX sur le cadre (0.05 = +5 %)", widget: number, value_type: float }
           - { name: aide_impression, label: "Texte d'aide (ampoule impression)", widget: text }
           - { name: aide_papier, label: "Texte d'aide (ampoule papier)", widget: text }
       - name: archive

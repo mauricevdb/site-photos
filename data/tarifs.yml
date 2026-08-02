@@ -40,7 +40,8 @@ papiers:
 couts:
   site: 5
   expedition: 5
-  capex: 1
+  capex: 1.2
+  capex_cadre: 0.05
 aide_impression: >-
   Le jet d'encre pigmentaire (impression giclée sur traceur Epson) dépose des encres
   pigmentaires d'une grande longévité sur des papiers d'art : précision du détail,
