@@ -1,12 +1,12 @@
 tailles:
   - nom: Small
-    longueur: 21
+    longueur: 24
     prix: 60
   - nom: Medium
     longueur: 30
     prix: 95
   - nom: Large
-    longueur: 42
+    longueur: 40
     prix: 150
 impressions:
   - nom: Jet d'encre pigmentaire
