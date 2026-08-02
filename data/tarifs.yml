@@ -1,0 +1,39 @@
+# Grille tarifaire unique — modifiable dans le back office (Tarifs & options)
+tailles:
+  - nom: Small
+    longueur: 21
+    prix: 60
+  - nom: Medium
+    longueur: 30
+    prix: 95
+  - nom: Large
+    longueur: 42
+    prix: 150
+impressions:
+  - nom: Jet d'encre pigmentaire
+    supplement: 0
+  - nom: Tirage argentique
+    supplement: 10
+aide_impression: >-
+  Le jet d'encre pigmentaire offre une restitution très fidèle des couleurs et une
+  excellente longévité. Le tirage argentique est un procédé photochimique
+  traditionnel, au rendu profond et continu. À compléter selon vos procédés.
+papiers:
+  - nom: Papier 1
+    supplement: 0
+  - nom: Papier 2
+    supplement: 0
+  - nom: Papier 3
+    supplement: 0
+aide_papier: >-
+  Description des papiers à compléter : grammage, finition (mat, satiné, baryté),
+  rendu des noirs et des couleurs.
+cadres:
+  - nom: Sans cadre
+    supplement: 0
+  - nom: Cadre 1
+    supplement: 40
+  - nom: Cadre 2
+    supplement: 60
+  - nom: Cadre 3
+    supplement: 80

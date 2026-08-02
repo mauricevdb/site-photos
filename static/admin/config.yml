@@ -2,7 +2,7 @@ backend:
   name: github
   repo: mauricevdb/site-photos
   branch: main
-  base_url: https://VOTRE-WORKER.workers.dev   # à remplacer à l'étape d'authentification
+  base_url: https://sveltia-cms-auth.maurice-vandenboo.workers.dev
 
 site_url: https://radio-paris-samarcande.eu
 media_folder: assets/images
@@ -21,15 +21,70 @@ collections:
     sortable_fields: [title, date, pays]
     fields:
       - { name: title, label: Titre }
-      - { name: date, label: Date de capture, widget: datetime, format: "YYYY-MM-DD", time_format: false }
+      - { name: date, label: "Date de capture (classement Archive)", widget: datetime, format: "YYYY-MM-DD", time_format: false }
       - { name: image, label: Image, widget: image }
-      - { name: pays, label: Pays, widget: select, options: [Italie, Bosnie, Macédoine du Nord, Turquie, Arménie, Kazakhstan, Ouzbékistan, Tadjikistan, Kyrgyzstan], required: false }
-      - { name: series, label: "Série (laisser vide si photo seule)", widget: list, required: false }
-      - { name: ordre, label: "Ordre dans la série", widget: number, required: false }
-      - { name: orientation, label: Orientation, widget: select, options: [paysage, portrait], default: paysage }
+      - { name: pays, label: "Pays (sert aux suggestions automatiques)", widget: select, options: [Italie, Bosnie, Macédoine du Nord, Turquie, Arménie, Kazakhstan, Ouzbékistan, Tadjikistan, Kyrgyzstan], required: false }
+      - name: suggestions
+        label: "Suggestions manuelles (3 max — laisser vide pour l'automatique)"
+        widget: list
+        required: false
+        max: 3
+        field: { name: photo, label: Photo, widget: relation, collection: photos, value_field: "{{slug}}", search_fields: [title], display_fields: [title] }
       - { name: sku, label: "Référence (ne pas modifier)", required: false }
-      - { name: base_price, label: "Prix de base (€)", widget: number, default: 45 }
-      - { name: body, label: Description, widget: markdown, required: false }
+      - { name: body, label: "Description (facultative)", widget: markdown, required: false }
+
+  - name: galerie
+    label: "Galerie (sélection)"
+    files:
+      - name: galerie
+        label: "Photos de la page Galerie"
+        file: data/galerie.yml
+        fields:
+          - name: photos
+            label: "Sélection (l'ordre de la liste = ordre d'affichage)"
+            widget: list
+            fields:
+              - { name: photo, label: Photo, widget: relation, collection: photos, value_field: "{{slug}}", search_fields: [title], display_fields: [title] }
+
+  - name: tarifs
+    label: "Tarifs & options"
+    files:
+      - name: tarifs
+        label: "Grille tarifaire et options de commande"
+        file: data/tarifs.yml
+        fields:
+          - name: tailles
+            label: "Tailles (longueur du grand côté en cm, prix en €)"
+            widget: list
+            fields:
+              - { name: nom, label: Nom }
+              - { name: longueur, label: "Grand côté (cm)", widget: number }
+              - { name: prix, label: "Prix (€)", widget: number }
+          - name: impressions
+            label: "Types d'impression"
+            widget: list
+            fields:
+              - { name: nom, label: Nom }
+              - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
+          - { name: aide_impression, label: "Texte d'aide (ampoule impression)", widget: text }
+          - name: papiers
+            label: "Types de papier"
+            widget: list
+            fields:
+              - { name: nom, label: Nom }
+              - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
+          - { name: aide_papier, label: "Texte d'aide (ampoule papier)", widget: text }
+          - name: cadres
+            label: Cadres
+            widget: list
+            fields:
+              - { name: nom, label: Nom }
+              - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
+      - name: archive
+        label: "Réglage de l'Archive"
+        file: data/archive.yml
+        fields:
+          - { name: granularite, label: "Regroupement", widget: select, options: [mois, annee], default: mois }
 
   - name: pages
     label: Pages du site
@@ -39,7 +94,9 @@ collections:
         file: content/a-propos.md
         fields:
           - { name: title, label: Titre }
-          - { name: body, label: "Texte de présentation", widget: markdown }
+          - { name: portrait, label: "Photo (insert)", widget: image, required: false }
+          - { name: instagram, label: "Lien Instagram", required: false }
+          - { name: body, label: Texte, widget: markdown }
       - name: cgv
         label: "Conditions générales de vente"
         file: content/cgv.md
@@ -52,19 +109,3 @@ collections:
         fields:
           - { name: title, label: Titre }
           - { name: body, label: Texte, widget: markdown }
-
-  - name: mosaique
-    label: "Mosaïque (À propos)"
-    files:
-      - name: mosaique
-        label: "Composition de la mosaïque"
-        file: data/mosaique.yml
-        fields:
-          - { name: disposition, label: "Disposition", widget: select, options: [galaxie, chemin, libre], default: galaxie, hint: "galaxie = grandes au centre ; chemin = parcours en S ; libre = au fil de la liste" }
-          - { name: espacement, label: "Espacement (px)", widget: number, default: 12 }
-          - name: photos
-            label: "Photos (l'ordre de la liste = ordre d'affichage ; retirer une photo ici la retire du site vitrine)"
-            widget: list
-            fields:
-              - { name: photo, label: Photo, widget: relation, collection: photos, value_field: "{{slug}}", search_fields: [title], display_fields: [title] }
-              - { name: taille, label: Taille, widget: select, options: [petite, moyenne, grande], default: moyenne }

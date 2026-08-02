@@ -3,35 +3,157 @@
 {{ $grande := .Params.image | relURL }}{{ $pleine := $grande }}
 {{ if $img }}
   {{ $img = $img.Filter images.AutoOrient }}
-  {{ $g := $img.Resize "1400x q85" }}{{ $grande = $g.RelPermalink }}
+  {{ $g := $img.Resize "1600x q88" }}{{ $grande = $g.RelPermalink }}
   {{ $p := $img.Resize "2048x q90" }}{{ $pleine = $p.RelPermalink }}
 {{ end }}
-<article class="photo-page">
-  <div class="photo-view">
+{{ $r := partial "ratio.html" (dict "page" .) }}
+{{ $t := site.Data.tarifs }}
+{{ $base := (index $t.tailles 0).prix }}
+
+<article class="commande">
+  <figure class="commande-visuel">
     <img id="photo-principale" src="{{ $grande }}" alt="{{ .Title }}" title="Cliquer pour agrandir">
+  </figure>
+  <h1>{{ .Title }}</h1>
+  {{ with .Content }}<div class="commande-texte">{{ . }}</div>{{ end }}
+
+  {{ $optTailles := slice }}
+  {{ range $t.tailles }}
+    {{ $L := float .longueur }}
+    {{ $larg := $L }}{{ $haut := div $L $r }}
+    {{ if lt $r 1.0 }}{{ $haut = $L }}{{ $larg = mul $L $r }}{{ end }}
+    {{ $dim := printf "%s — %.0f × %.0f cm" .nom $larg $haut }}
+    {{ $diff := sub .prix $base }}
+    {{ if gt $diff 0 }}{{ $optTailles = $optTailles | append (printf "%s[+%.2f]" $dim (float $diff)) }}{{ else }}{{ $optTailles = $optTailles | append $dim }}{{ end }}
+  {{ end }}
+  {{ $optImpr := slice }}
+  {{ range $t.impressions }}{{ if gt .supplement 0 }}{{ $optImpr = $optImpr | append (printf "%s[+%.2f]" .nom (float .supplement)) }}{{ else }}{{ $optImpr = $optImpr | append .nom }}{{ end }}{{ end }}
+  {{ $optPap := slice }}
+  {{ range $t.papiers }}{{ if gt .supplement 0 }}{{ $optPap = $optPap | append (printf "%s[+%.2f]" .nom (float .supplement)) }}{{ else }}{{ $optPap = $optPap | append .nom }}{{ end }}{{ end }}
+  {{ $optCad := slice }}
+  {{ range $t.cadres }}{{ if gt .supplement 0 }}{{ $optCad = $optCad | append (printf "%s[+%.2f]" .nom (float .supplement)) }}{{ else }}{{ $optCad = $optCad | append .nom }}{{ end }}{{ end }}
+
+  <div class="commande-options" id="achat" data-base="{{ $base }}">
+    <div class="ligne-option">
+      <label for="opt-taille">Taille</label>
+      <select id="opt-taille">
+        {{ range $i, $ta := $t.tailles }}
+        {{ $L := float $ta.longueur }}
+        {{ $larg := $L }}{{ $haut := div $L $r }}
+        {{ if lt $r 1.0 }}{{ $haut = $L }}{{ $larg = mul $L $r }}{{ end }}
+        <option value="{{ printf "%s — %.0f × %.0f cm" $ta.nom $larg $haut }}" data-prix="{{ $ta.prix }}">
+          {{ printf "%s — %.0f × %.0f cm" $ta.nom $larg $haut }} · {{ $ta.prix }} €
+        </option>
+        {{ end }}
+      </select>
+    </div>
+    <div class="ligne-option">
+      <label for="opt-impression">Type d'impression
+        <span class="aide" tabindex="0">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-label="En savoir plus"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.7 1.5 1.6 1.5 2.5h5c0-.9.7-1.8 1.5-2.5A6 6 0 0 0 12 3Z"/></svg>
+          <span class="aide-bulle">{{ $t.aide_impression }}</span>
+        </span>
+      </label>
+      <select id="opt-impression">
+        {{ range $t.impressions }}<option value="{{ .nom }}" data-supp="{{ .supplement }}">{{ .nom }}{{ if gt .supplement 0 }} · +{{ .supplement }} €{{ end }}</option>{{ end }}
+      </select>
+    </div>
+    <div class="ligne-option">
+      <label for="opt-papier">Type de papier
+        <span class="aide" tabindex="0">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-label="En savoir plus"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.7 1.5 1.6 1.5 2.5h5c0-.9.7-1.8 1.5-2.5A6 6 0 0 0 12 3Z"/></svg>
+          <span class="aide-bulle">{{ $t.aide_papier }}</span>
+        </span>
+      </label>
+      <select id="opt-papier">
+        {{ range $t.papiers }}<option value="{{ .nom }}" data-supp="{{ .supplement }}">{{ .nom }}{{ if gt .supplement 0 }} · +{{ .supplement }} €{{ end }}</option>{{ end }}
+      </select>
+    </div>
+    <div class="ligne-option">
+      <label for="opt-cadre">Cadre</label>
+      <select id="opt-cadre">
+        {{ range $t.cadres }}<option value="{{ .nom }}" data-supp="{{ .supplement }}">{{ .nom }}{{ if gt .supplement 0 }} · +{{ .supplement }} €{{ end }}</option>{{ end }}
+      </select>
+    </div>
+
+    <button class="snipcart-add-item btn-commander"
+      id="btn-commander"
+      data-item-id="{{ .Params.sku }}"
+      data-item-name="{{ .Title }}"
+      data-item-price="{{ $base }}"
+      data-item-url="{{ .Permalink }}"
+      data-item-image="{{ $grande | absURL }}"
+      data-item-custom1-name="Taille"
+      data-item-custom1-options="{{ delimit $optTailles "|" }}"
+      data-item-custom2-name="Impression"
+      data-item-custom2-options="{{ delimit $optImpr "|" }}"
+      data-item-custom3-name="Papier"
+      data-item-custom3-options="{{ delimit $optPap "|" }}"
+      data-item-custom4-name="Cadre"
+      data-item-custom4-options="{{ delimit $optCad "|" }}">
+      Confirmer et payer — <span id="total">{{ $base }}</span> €
+    </button>
   </div>
-  <div class="photo-order">
-    <h1>{{ .Title }}</h1>
-    {{ with .Params.series }}{{ with index . 0 }}
-      {{ with site.GetPage (printf "/series/%s" (. | urlize)) }}
-      <p class="serie-lien">Fait partie de la série <a href="{{ .RelPermalink }}">{{ .Title }}</a></p>
+
+  {{ $sugg := slice }}
+  {{ with .Params.suggestions }}
+    {{ range . }}
+      {{ with site.GetPage (printf "/photos/%s" .) }}{{ $sugg = $sugg | append . }}{{ end }}
+    {{ end }}
+  {{ end }}
+  {{ if lt (len $sugg) 3 }}
+    {{ $tous := (where site.RegularPages "Section" "photos").ByDate }}
+    {{ $memePays := slice }}
+    {{ range $tous }}{{ if and (eq (.Params.pays | default "") ($.Params.pays | default "?")) (ne .Permalink $.Permalink) }}{{ $memePays = $memePays | append . }}{{ end }}{{ end }}
+    {{ $idx := -1 }}
+    {{ range $i, $p := $memePays }}{{ if gt $p.Date $.Date }}{{ if lt $idx 0 }}{{ $idx = $i }}{{ end }}{{ end }}{{ end }}
+    {{ if lt $idx 0 }}{{ $idx = len $memePays }}{{ end }}
+    {{ $ordreCandidats := slice $idx (sub $idx 1) (add $idx 1) (sub $idx 2) (add $idx 2) (sub $idx 3) }}
+    {{ range $ordreCandidats }}
+      {{ if and (ge . 0) (lt . (len $memePays)) (lt (len $sugg) 3) }}
+        {{ $c := index $memePays . }}
+        {{ if not (in $sugg $c) }}{{ $sugg = $sugg | append $c }}{{ end }}
       {{ end }}
-    {{ end }}{{ end }}
-    {{ .Content }}
-    {{ partial "achat.html" (dict "page" .) }}
-  </div>
+    {{ end }}
+    {{ range $tous }}{{ if and (lt (len $sugg) 3) (ne .Permalink $.Permalink) (not (in $sugg .)) }}{{ $sugg = $sugg | append . }}{{ end }}{{ end }}
+  {{ end }}
+  {{ if $sugg }}
+  <section class="suggestions">
+    <h2>Vous aimerez peut-être</h2>
+    {{ partial "grille-nue.html" (dict "pages" (first 3 $sugg)) }}
+  </section>
+  {{ end }}
 </article>
 
-<div id="lightbox" hidden>
-  <img src="{{ $pleine }}" alt="{{ .Title }}">
-</div>
+<div id="lightbox" hidden><img src="{{ $pleine }}" alt="{{ .Title }}"></div>
 
 <script>
-  (function () {
-    var lb = document.getElementById('lightbox');
-    document.getElementById('photo-principale').addEventListener('click', function () { lb.hidden = false; });
-    lb.addEventListener('click', function () { lb.hidden = true; });
-    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') lb.hidden = true; });
-  })();
+(function () {
+  var bloc = document.getElementById('achat');
+  var base = Number(bloc.dataset.base);
+  var bouton = document.getElementById('btn-commander');
+  var total = document.getElementById('total');
+  var champs = [
+    { sel: document.getElementById('opt-taille'), attr: 'data-item-custom1-value', prix: 'prix' },
+    { sel: document.getElementById('opt-impression'), attr: 'data-item-custom2-value', prix: 'supp' },
+    { sel: document.getElementById('opt-papier'), attr: 'data-item-custom3-value', prix: 'supp' },
+    { sel: document.getElementById('opt-cadre'), attr: 'data-item-custom4-value', prix: 'supp' }
+  ];
+  function maj() {
+    var somme = 0;
+    champs.forEach(function (c) {
+      var opt = c.sel.options[c.sel.selectedIndex];
+      bouton.setAttribute(c.attr, opt.value);
+      somme += (c.prix === 'prix') ? Number(opt.dataset.prix) : Number(opt.dataset.supp);
+    });
+    total.textContent = somme;
+  }
+  champs.forEach(function (c) { c.sel.addEventListener('change', maj); });
+  maj();
+  var lb = document.getElementById('lightbox');
+  document.getElementById('photo-principale').addEventListener('click', function () { lb.hidden = false; });
+  lb.addEventListener('click', function () { lb.hidden = true; });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') lb.hidden = true; });
+})();
 </script>
 {{ end }}

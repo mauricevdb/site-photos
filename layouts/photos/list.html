@@ -1,42 +1,25 @@
 {{ define "main" }}
-<h1>{{ .Title }}</h1>
-{{ .Content }}
-
-<nav class="regions-nav jalons">
-  {{ range site.Params.regions }}
-  <a class="jalon" href="#{{ .id }}"><span class="pt"></span><span class="manuscrit">{{ .nom }}</span></a>
-  {{ end }}
-</nav>
-
+<h1 class="titre-page">Archive</h1>
+{{ $gran := "mois" }}{{ with site.Data.archive }}{{ $gran = .granularite | default "mois" }}{{ end }}
+{{ $moisNoms := slice "janvier" "février" "mars" "avril" "mai" "juin" "juillet" "août" "septembre" "octobre" "novembre" "décembre" }}
 {{ $photos := .Pages.ByDate }}
-{{ $premier := true }}
-{{ range site.Params.regions }}
-  {{ $r := . }}
-  {{ $sub := slice }}
-  {{ range $photos }}{{ if in $r.pays (.Params.pays | default "") }}{{ $sub = $sub | append . }}{{ end }}{{ end }}
-  {{ if $sub }}
-  {{ if not $premier }}{{ partial "montagnes.html" . }}{{ end }}
-  {{ $premier = false }}
-  <section id="{{ $r.id }}" class="region">
-    <h2><span class="manuscrit">{{ $r.nom }}</span> <small>{{ len $sub }} photos</small></h2>
-    <div class="grid">
-      {{ partial "cartes-grille.html" (dict "pages" $sub) }}
-    </div>
-  </section>
+{{ $cle := "" }}
+{{ range $photos }}
+  {{ $c := .Date.Format "2006" }}
+  {{ if eq $gran "mois" }}{{ $c = .Date.Format "2006-01" }}{{ end }}
+  {{ if ne $c $cle }}
+    {{ if ne $cle "" }}</div></section>{{ end }}
+    {{ $cle = $c }}
+    <section class="periode">
+    <h2>{{ if eq $gran "mois" }}{{ index $moisNoms (sub (int (.Date.Format "1")) 1) }} {{ end }}{{ .Date.Format "2006" }}</h2>
+    <div class="grille grille-archive">
   {{ end }}
+  {{ $r := partial "ratio.html" (dict "page" .) }}
+  <a class="tuile" href="{{ .RelPermalink }}"
+     style="flex-grow: {{ math.Round (mul $r 100) }}; flex-basis: {{ math.Round (mul $r 170) }}px;">
+    {{ partial "vignette.html" (dict "page" . "largeur" 500) }}
+    <span class="tuile-titre">{{ .Title }}</span>
+  </a>
 {{ end }}
-
-{{ $couverts := slice }}
-{{ range site.Params.regions }}{{ range .pays }}{{ $couverts = $couverts | append . }}{{ end }}{{ end }}
-{{ $sans := slice }}
-{{ range $photos }}{{ if not (in $couverts (.Params.pays | default "")) }}{{ $sans = $sans | append . }}{{ end }}{{ end }}
-{{ if $sans }}
-{{ partial "montagnes.html" . }}
-<section id="autres" class="region">
-  <h2><span class="manuscrit">Autres</span></h2>
-  <div class="grid">
-    {{ partial "cartes-grille.html" (dict "pages" $sans) }}
-  </div>
-</section>
-{{ end }}
+{{ if ne $cle "" }}</div></section>{{ end }}
 {{ end }}

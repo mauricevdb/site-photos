@@ -1,14 +1,10 @@
-# Configuration du site
 baseURL = "https://radio-paris-samarcande.eu/"
 languageCode = "fr-fr"
 title = "Maurice — Photographies"
 
-[taxonomies]
-  serie = "series"
-
 [params]
   snipcartApiKey = "NjMxNDk3YzctMjU3My00ZTFjLThmNGQtZDcwOGY1OGNhYTc4NjM5MTg1OTgwMjU3NDMwNzMy"
-  description = "Photographies de voyage entre la France et le Kyrgyzstan"
+  description = "Photographies de voyage, de Paris à Samarcande"
 
 [markup]
   [markup.goldmark]
@@ -17,65 +13,14 @@ title = "Maurice — Photographies"
 
 [menus]
   [[menus.main]]
-    name = "À propos"
-    pageRef = "/a-propos"
+    name = "Galerie"
+    pageRef = "/"
     weight = 10
   [[menus.main]]
-    name = "Galerie"
+    name = "Archive"
     pageRef = "/photos"
     weight = 20
   [[menus.main]]
-    name = "CGV"
-    pageRef = "/cgv"
+    name = "À propos"
+    pageRef = "/a-propos"
     weight = 30
-
-# Régions de la galerie, dans l'ordre du voyage
-[[params.regions]]
-  id = "italie"
-  nom = "Italie"
-  pays = ["Italie"]
-[[params.regions]]
-  id = "balkans"
-  nom = "Balkans"
-  pays = ["Bosnie", "Macédoine du Nord"]
-[[params.regions]]
-  id = "turquie"
-  nom = "Turquie"
-  pays = ["Turquie"]
-[[params.regions]]
-  id = "caucase"
-  nom = "Caucase"
-  pays = ["Arménie", "Kazakhstan"]
-[[params.regions]]
-  id = "ouzbekistan"
-  nom = "Ouzbékistan"
-  pays = ["Ouzbékistan"]
-[[params.regions]]
-  id = "tadjikistan"
-  nom = "Tadjikistan"
-  pays = ["Tadjikistan"]
-[[params.regions]]
-  id = "kyrgyzstan"
-  nom = "Kirghizistan"
-  pays = ["Kyrgyzstan"]
-
-# Formats de tirage par défaut, selon l'orientation de la photo
-[[params.formats_paysage]]
-  name = "A4 (29,7 × 21 cm)"
-  surcharge = 0
-[[params.formats_paysage]]
-  name = "A3 (42 × 29,7 cm)"
-  surcharge = 20
-[[params.formats_paysage]]
-  name = "90 × 60 cm"
-  surcharge = 55
-
-[[params.formats_portrait]]
-  name = "A4 (21 × 29,7 cm)"
-  surcharge = 0
-[[params.formats_portrait]]
-  name = "A3 (29,7 × 42 cm)"
-  surcharge = 20
-[[params.formats_portrait]]
-  name = "60 × 90 cm"
-  surcharge = 55
