@@ -1,4 +1,3 @@
-# Grille tarifaire unique — modifiable dans le back office (Tarifs & options)
 tailles:
   - nom: Small
     longueur: 21
@@ -14,31 +13,26 @@ impressions:
     supplement: 0
   - nom: Tirage argentique
     supplement: 10
-aide_impression: >-
-  Le jet d'encre pigmentaire offre une restitution très fidèle des couleurs et une
-  excellente longévité. Le tirage argentique est un procédé photochimique
-  traditionnel, au rendu profond et continu. À compléter selon vos procédés.
+aide_impression: Le jet d'encre pigmentaire offre une restitution très fidèle des couleurs et une excellente longévité. Le tirage argentique est un procédé photochimique traditionnel, au rendu profond et continu. À compléter selon vos procédés.
 papiers_jet:
-  - nom: Papier 1
+  - nom: Aquarelle Arches 310g (sur Epson)
     supplement: 0
-  - nom: Papier 2
+  - nom: Photo Rag Baryta Hahnemühle 315g
     supplement: 0
-  - nom: Papier 3
+  - nom: Ultra Smooth Hahnemühle 305g
     supplement: 0
-  - nom: Papier 4
+  - nom: Hahnemühle Photo RC satiné 310g
     supplement: 0
 papiers_argentique:
-  - nom: Papier 5
+  - nom: RC Couleur Satiné Fuji 230g
     supplement: 0
-  - nom: Papier 6
+  - nom: RC Couleur Brillant Fuji 250g
     supplement: 0
-  - nom: Papier 7
+  - nom: RC Couleur Mat Fuji 250g
     supplement: 0
-  - nom: Papier 8
+  - nom: Haute Réflexion Fuji 250g
     supplement: 0
-aide_papier: >-
-  Description des papiers à compléter : grammage, finition (mat, satiné, baryté),
-  rendu des noirs et des couleurs.
+aide_papier: 'Description des papiers à compléter : grammage, finition (mat, satiné, baryté), rendu des noirs et des couleurs.'
 cadres:
   - nom: Sans cadre
     supplement: 0
