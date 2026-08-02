@@ -1,6 +1,6 @@
 baseURL = "https://radio-paris-samarcande.eu/"
 languageCode = "fr-fr"
-title = "Maurice — Photographies"
+title = "Radio Paris-Samarcande"
 
 [params]
   snipcartApiKey = "NjMxNDk3YzctMjU3My00ZTFjLThmNGQtZDcwOGY1OGNhYTc4NjM5MTg1OTgwMjU3NDMwNzMy"

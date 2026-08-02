@@ -56,8 +56,14 @@ collections:
               - { name: nom, label: Nom }
               - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
           - { name: aide_impression, label: "Texte d'aide (ampoule impression)", widget: text }
-          - name: papiers
-            label: "Types de papier"
+          - name: papiers_jet
+            label: "Papiers — jet d'encre (affichés si le 1er type d'impression est choisi)"
+            widget: list
+            fields:
+              - { name: nom, label: Nom }
+              - { name: supplement, label: "Supplément (€)", widget: number, default: 0 }
+          - name: papiers_argentique
+            label: "Papiers — argentique (affichés si le 2e type d'impression est choisi)"
             widget: list
             fields:
               - { name: nom, label: Nom }

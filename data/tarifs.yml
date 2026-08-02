@@ -18,12 +18,23 @@ aide_impression: >-
   Le jet d'encre pigmentaire offre une restitution très fidèle des couleurs et une
   excellente longévité. Le tirage argentique est un procédé photochimique
   traditionnel, au rendu profond et continu. À compléter selon vos procédés.
-papiers:
+papiers_jet:
   - nom: Papier 1
     supplement: 0
   - nom: Papier 2
     supplement: 0
   - nom: Papier 3
+    supplement: 0
+  - nom: Papier 4
+    supplement: 0
+papiers_argentique:
+  - nom: Papier 5
+    supplement: 0
+  - nom: Papier 6
+    supplement: 0
+  - nom: Papier 7
+    supplement: 0
+  - nom: Papier 8
     supplement: 0
 aide_papier: >-
   Description des papiers à compléter : grammage, finition (mat, satiné, baryté),

@@ -28,7 +28,7 @@
   {{ $optImpr := slice }}
   {{ range $t.impressions }}{{ if gt .supplement 0 }}{{ $optImpr = $optImpr | append (printf "%s[+%.2f]" .nom (float .supplement)) }}{{ else }}{{ $optImpr = $optImpr | append .nom }}{{ end }}{{ end }}
   {{ $optPap := slice }}
-  {{ range $t.papiers }}{{ if gt .supplement 0 }}{{ $optPap = $optPap | append (printf "%s[+%.2f]" .nom (float .supplement)) }}{{ else }}{{ $optPap = $optPap | append .nom }}{{ end }}{{ end }}
+  {{ range (append $t.papiers_argentique $t.papiers_jet) }}{{ if gt .supplement 0 }}{{ $optPap = $optPap | append (printf "%s[+%.2f]" .nom (float .supplement)) }}{{ else }}{{ $optPap = $optPap | append .nom }}{{ end }}{{ end }}
   {{ $optCad := slice }}
   {{ range $t.cadres }}{{ if gt .supplement 0 }}{{ $optCad = $optCad | append (printf "%s[+%.2f]" .nom (float .supplement)) }}{{ else }}{{ $optCad = $optCad | append .nom }}{{ end }}{{ end }}
 
@@ -57,16 +57,16 @@
         {{ range $t.impressions }}<option value="{{ .nom }}" data-supp="{{ .supplement }}">{{ .nom }}{{ if gt .supplement 0 }} · +{{ .supplement }} €{{ end }}</option>{{ end }}
       </select>
     </div>
-    <div class="ligne-option">
+    <div class="ligne-option" id="ligne-papier"
+         data-jet="{{ $t.papiers_jet | jsonify }}"
+         data-arg="{{ $t.papiers_argentique | jsonify }}">
       <label for="opt-papier">Type de papier
         <span class="aide" tabindex="0">
           <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-label="En savoir plus"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.8.7 1.5 1.6 1.5 2.5h5c0-.9.7-1.8 1.5-2.5A6 6 0 0 0 12 3Z"/></svg>
           <span class="aide-bulle">{{ $t.aide_papier }}</span>
         </span>
       </label>
-      <select id="opt-papier">
-        {{ range $t.papiers }}<option value="{{ .nom }}" data-supp="{{ .supplement }}">{{ .nom }}{{ if gt .supplement 0 }} · +{{ .supplement }} €{{ end }}</option>{{ end }}
-      </select>
+      <select id="opt-papier"></select>
     </div>
     <div class="ligne-option">
       <label for="opt-cadre">Cadre</label>
@@ -147,7 +147,24 @@
     });
     total.textContent = somme;
   }
+  var lignePapier = document.getElementById('ligne-papier');
+  var selImpression = document.getElementById('opt-impression');
+  var selPapier = document.getElementById('opt-papier');
+  var jeuxPapiers = [JSON.parse(lignePapier.dataset.jet || '[]'), JSON.parse(lignePapier.dataset.arg || '[]')];
+  function majPapiers() {
+    var jeu = jeuxPapiers[selImpression.selectedIndex] || jeuxPapiers[0];
+    selPapier.innerHTML = '';
+    jeu.forEach(function (p) {
+      var o = document.createElement('option');
+      o.value = p.nom;
+      o.dataset.supp = p.supplement || 0;
+      o.textContent = p.nom + ((p.supplement > 0) ? ' · +' + p.supplement + ' €' : '');
+      selPapier.appendChild(o);
+    });
+  }
+  selImpression.addEventListener('change', function () { majPapiers(); maj(); });
   champs.forEach(function (c) { c.sel.addEventListener('change', maj); });
+  majPapiers();
   maj();
   var lb = document.getElementById('lightbox');
   document.getElementById('photo-principale').addEventListener('click', function () { lb.hidden = false; });

@@ -41,7 +41,6 @@ main { max-width: 1400px; margin: 0 auto; padding: 2.5rem 3rem 4rem; }
 
 /* Grille justifiée nue */
 .grille { display: flex; flex-wrap: wrap; gap: 10px; }
-.grille::after { content: ""; flex-grow: 999999; flex-basis: 0; }
 .tuile { position: relative; display: block; overflow: hidden; }
 .tuile img { width: 100%; height: auto; display: block; transition: opacity 0.25s; }
 .tuile:hover img { opacity: 0.88; }
