@@ -76,6 +76,11 @@ collections:
               - { name: cout, label: "Coût (€)", widget: number, value_type: float }
           - { name: aide_impression, label: "Texte d'aide (ampoule impression)", widget: text }
           - { name: aide_papier, label: "Texte d'aide (ampoule papier)", widget: text }
+      - name: galerie
+        label: "Réglage de la Galerie"
+        file: data/galerie.yml
+        fields:
+          - { name: taille, label: "Taille des photos", widget: select, options: [grandes, moyennes, compactes], default: moyennes }
       - name: archive
         label: "Réglage de l'Archive"
         file: data/archive.yml

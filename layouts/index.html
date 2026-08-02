@@ -1,25 +1,61 @@
 {{ define "main" }}
-<h1 class="titre-page">Galerie</h1>
 {{ $sel := where (where site.RegularPages "Section" "photos") "Params.galerie" true }}
 {{ $sel = $sel.ByDate }}
 {{ if not $sel }}
   {{ $sel = first 24 (where site.RegularPages "Section" "photos").ByDate }}
 {{ end }}
+
+<section id="photo-du-jour" hidden>
+  <p class="etiquette-jour">Photo du jour</p>
+  <a id="pdj-lien"><img id="pdj-image" alt=""></a>
+  <div id="pdj-desc" class="pdj-desc"></div>
+</section>
+
+<h1 class="titre-page">Galerie</h1>
 <div id="grille-galerie">
   {{ partial "grille-nue.html" (dict "pages" $sel) }}
 </div>
 
+{{ $data := slice }}
+{{ range $sel }}
+  {{ $img := partial "img-res.html" (dict "page" .) }}
+  {{ $src := .Params.image | relURL }}
+  {{ if $img }}{{ $o := $img.Filter images.AutoOrient }}{{ $g := $o.Resize "1500x q88" }}{{ $src = $g.RelPermalink }}{{ end }}
+  {{ $data = $data | append (dict "url" .RelPermalink "src" $src "desc" (.Content | plainify | chomp)) }}
+{{ end }}
+<script id="pdj-data" type="application/json">{{ $data | jsonify | safeJS }}</script>
+
 <script>
 (function () {
+  var photos = JSON.parse(document.getElementById('pdj-data').textContent);
   var conteneur = document.querySelector('#grille-galerie .grille');
-  if (!conteneur) return;
+  if (!conteneur || !photos.length) return;
+
+  // --- Photo du jour : change chaque jour à 7 h ---
+  var maintenant = new Date();
+  var jour = Math.floor((maintenant.getTime() - maintenant.getTimezoneOffset() * 60000 - 7 * 3600000) / 86400000);
+  var choix = photos[((jour % photos.length) + photos.length) % photos.length];
+  var section = document.getElementById('photo-du-jour');
+  document.getElementById('pdj-lien').href = choix.url;
+  document.getElementById('pdj-image').src = choix.src;
+  var desc = document.getElementById('pdj-desc');
+  if (choix.desc) { desc.textContent = choix.desc; } else { desc.remove(); }
+  section.hidden = false;
+
+  // --- Grille (la photo du jour en est retirée) ---
   var GAP = 10;
-  var tuiles = Array.prototype.slice.call(conteneur.querySelectorAll('.tuile'));
+  var tuiles = Array.prototype.slice.call(conteneur.querySelectorAll('.tuile')).filter(function (t) {
+    var a = t.getAttribute('href');
+    if (a === choix.url) { t.remove(); return false; }
+    return true;
+  });
   tuiles.forEach(function (t) {
     var img = t.querySelector('img');
     var w = parseFloat(img.getAttribute('width')), h = parseFloat(img.getAttribute('height'));
     t.__r = (w && h) ? w / h : 1.5;
   });
+  var reglages = { grandes: [260, 400], moyennes: [200, 300], compactes: [150, 230] };
+  var choixTaille = reglages['{{ with site.Data.galerie }}{{ .taille | default "moyennes" }}{{ else }}moyennes{{ end }}'] || reglages.moyennes;
   function decouper(cible, W) {
     var rangs = [], cur = [], somme = 0;
     tuiles.forEach(function (t) {
@@ -38,11 +74,11 @@
     var W = Math.floor(conteneur.getBoundingClientRect().width);
     if (W < 200 || !tuiles.length) return;
     var meilleur = null, meilleurScore = Infinity;
-    for (var cible = 200; cible <= 360; cible += 10) {
+    for (var cible = choixTaille[0]; cible <= choixTaille[1]; cible += 10) {
       var essai = decouper(cible, W);
       var hs = essai.hauteurs;
       var score = Math.max.apply(null, hs) - Math.min.apply(null, hs);
-      if (Math.max.apply(null, hs) > 480) score += 1000;
+      if (Math.max.apply(null, hs) > choixTaille[1] * 1.5) score += 1000;
       if (score < meilleurScore) { meilleurScore = score; meilleur = essai; }
     }
     meilleur.rangs.forEach(function (rang, i) {
