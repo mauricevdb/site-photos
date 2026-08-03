@@ -1,5 +1,5 @@
 ---
-title: "Mentions légales"
+title: Mentions légales
 ---
 
 ## Éditeur du site
@@ -7,7 +7,6 @@ title: "Mentions légales"
 Le site radio-paris-samarcande.eu est édité par **Maurice Van den Boogaerde**, photographe.
 Directeur de la publication : Maurice Van den Boogaerde.
 Contact : maurice.vandenboo@gmail.com
-*(Si vous exercez sous un statut immatriculé — micro-entreprise ou autre — complétez ici : SIREN/SIRET, adresse professionnelle.)*
 
 ## Hébergement
 
