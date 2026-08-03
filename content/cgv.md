@@ -1,8 +1,8 @@
 ---
-title: "Conditions générales de vente"
+title: Conditions générales de vente
 ---
 
-*Dernière mise à jour : à compléter à la mise en ligne.*
+_Dernière mise à jour : à compléter à la mise en ligne._
 
 ## 1. Objet et champ d'application
 
@@ -22,7 +22,7 @@ La commande s'effectue en ligne via le panier du site. Le paiement est exigible 
 
 ## 5. Fabrication et livraison
 
-Chaque tirage étant réalisé à la demande, le délai de fabrication est de l'ordre de [X] jours ouvrés, auquel s'ajoute le délai d'acheminement. Les livraisons sont assurées à l'adresse indiquée par le Client lors de la commande. En cas de retard significatif, le Client en est informé. Il appartient au Client de vérifier l'état du colis à réception et de signaler toute avarie au transporteur et au Vendeur dans les meilleurs délais.
+Chaque tirage étant réalisé à la demande, le délai de fabrication est de l'ordre de 14 jours ouvrés, auquel s'ajoute le délai d'acheminement. Les livraisons sont assurées à l'adresse indiquée par le Client lors de la commande. En cas de retard significatif, le Client en est informé. Il appartient au Client de vérifier l'état du colis à réception et de signaler toute avarie au transporteur et au Vendeur dans les meilleurs délais.
 
 ## 6. Droit de rétractation
 
